@@ -55,7 +55,8 @@ Route::group([
 Route::group([
     'prefix' => 'cart',
 ], function () {
-    Route::post('add-item', [CartController::class, 'addItemToCart']);
-    Route::post('remove-item', [CartController::class, 'rmvItemFromCart']);
-    Route::get('all-items', [CartController::class, 'getAllCartItems']);
+    Route::post('item/add', [CartController::class, 'addItemToCart']);
+    Route::post('item/remove', [CartController::class, 'rmvItemFromCart']);
+    Route::get('items/all', [CartController::class, 'getAllCartItems']);
+    Route::post('item/update-qty', [CartController::class, 'updateCartItemQty']);
 });

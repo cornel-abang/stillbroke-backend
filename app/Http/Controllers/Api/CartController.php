@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\RmvFromCartRequest;
+use App\Http\Requests\UpdateCartItemQtyRequest;
 
 class CartController extends Controller
 {
@@ -52,7 +53,7 @@ class CartController extends Controller
 
     public function rmvItemFromCart(RmvFromCartRequest $request)
     {
-        $response = $this->cartService->rmvItem($request->item_id);
+        $response = $this->cartService->rmvItem($request->item_index);
 
         if (! $response) {
             return response()->json([
@@ -64,6 +65,23 @@ class CartController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Item removed from cart',
+        ], 200);
+    }
+
+    public function updateCartItemQty(UpdateCartItemQtyRequest $request)
+    {
+        $response = $this->cartService->updateItemQty($request->except('cart_token'));
+
+        if (! $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trying to update item quantity with wrong index'
+            ], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Item quantity updated',
         ], 200);
     }
 }

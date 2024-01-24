@@ -12,7 +12,7 @@ class RmvFromCartRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'item_id' => 'required|integer',
+            'item_index' => 'required|integer',
             'cart_token' => 'required|string',
         ];
     }

@@ -23,14 +23,27 @@ class CartService
         return cart()->toArray();
     }
 
-    public function rmvItem(int $id): bool
+    public function rmvItem(int $index): bool
     {
         try {
-            cart()->removeAt($id);
-
-            return true;
+            cart()->removeAt($index);
         } catch (ItemMissing) {
+
             return false;
         }
+        
+        return true;
+    }
+
+    public function updateItemQty(array $info)
+    {
+        try {
+            cart()->setQuantityAt($info['item_index'], $info['qty']);
+        } catch (ItemMissing) {
+
+            return false;
+        }
+
+        return true;
     }
 }
