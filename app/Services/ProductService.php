@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\SavedProduct;
+use Illuminate\Database\Eloquent\Collection;
+
+class ProductService
+{
+    public function fetchProductsByCat(int $cat_id): Collection | bool
+    {
+        if (! $prodCategory = Category::find($cat_id)) {
+            return false;
+        }
+
+        return $prodCategory->products;
+    }
+
+    public function fetchProductById(int $id): Product | bool
+    {
+        if (! $product = Product::find($id)) {
+            return false;
+        }
+
+        return $product;
+    }
+
+    public function findByFilter(array $filterData): ?Collection
+    {
+        $prodCategory = Category::find($filterData['category_id']);
+
+        $products = $prodCategory->products()
+            ->where($filterData['type'], $filterData['filter'])
+            ->get();
+        
+        return $products;
+    }
+
+    public function searchProducts(string $query): ?Collection
+    {
+        return Product::search($query)->get();
+    }
+
+    public function saveProduct(int $id): bool
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        SavedProduct::create([
+            'product_id' => $id,
+            'user_id' => auth()->user()->id
+        ]);
+
+        return true;
+    }
+
+    public function fetchSavedProducts(): ?Collection
+    {
+        return auth()->user()->savedProducts;
+    }
+}
