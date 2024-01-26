@@ -15,10 +15,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $price
  * @property string $category_id
  * @property string $description
- * @property string $color
+ * @property string $gender
  * @property string $primary_image
  * @property BelongsTo<Category> $category
  * @property HasMany<ProductImage> $images
+ * @property HasMany<ProductSize> $sizes
+ * @property HasMany<ProductColor> $colors
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  */
@@ -26,7 +28,7 @@ class Product extends Model
 {
     use HasFactory, Searchable, Cartable;
 
-    protected $with = ['images'];
+    protected $with = ['images', 'colors', 'sizes'];
 
     public function category(): BelongsTo
     {
@@ -36,6 +38,16 @@ class Product extends Model
     public function images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
+    }
+
+    public function sizes(): HasMany
+    {
+        return $this->hasMany(ProductSize::class);
+    }
+
+    public function colors(): HasMany
+    {
+        return $this->hasMany(ProductColor::class);
     }
 
     public function getName()

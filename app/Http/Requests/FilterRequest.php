@@ -12,7 +12,7 @@ class FilterRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'type' => 'required|string|in:color',
+            'type' => 'required|string|in:gender',
             'filter' => 'required|string',
         ];
     }

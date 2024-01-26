@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductService
 {
+    public function fetchCategories(): ?Collection
+    {
+        return Category::all();
+    }
+
     public function fetchProductsByCat(int $cat_id): Collection | bool
     {
         if (! $prodCategory = Category::find($cat_id)) {
@@ -27,9 +32,13 @@ class ProductService
         return $product;
     }
 
-    public function findByFilter(array $filterData): ?Collection
+    public function findByFilter(array $filterData): Collection | bool
     {
         $prodCategory = Category::find($filterData['category_id']);
+
+        if (! $prodCategory) {
+            return false;
+        }
 
         $products = $prodCategory->products()
             ->where($filterData['type'], $filterData['filter'])

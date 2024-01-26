@@ -6,14 +6,14 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductImage>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductSize>
  */
-class ProductImageFactory extends Factory
+class ProductSizeFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'url' => fake()->imageUrl,
+            'size_code' => fake()->randomElement(['M','L', 'S', 'XL', '40', '32', '45', '33']),
             'product_id' => Product::factory(),
         ];
     }

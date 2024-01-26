@@ -41,6 +41,7 @@ Route::group([
     /**
      * Product Endpoints
     */
+    Route::get('product/categories', [ProductController::class, 'getAllProductCategories']);
     Route::get('products/category/{category_id}', [ProductController::class, 'getProductsByCategory']);
     Route::get('product/{id}', [ProductController::class, 'getProductById']);
     Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);

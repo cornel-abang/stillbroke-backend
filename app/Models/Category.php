@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $name
+ * @property string $image
  * @property HasMany<Product> $products
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at

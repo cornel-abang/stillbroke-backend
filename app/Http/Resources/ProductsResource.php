@@ -15,13 +15,24 @@ class ProductsResource extends JsonResource
                 return $image->url;
             });
 
+            $colors = $product->colors->map(function ($color) {
+                return $color->color_code;
+            });
+
+            $sizes = $product->sizes->map(function ($size) {
+                return $size->size_code;
+            });
+
             return [
                 'id' => $product->id,
                 'title' => $product->title,
                 'price' => $product->price,
-                'color' => $product->color,
+                'primary_image' => $product->primary_image,
+                'gender' => $product->gender,
                 'description' => $product->description,
                 'images' => $images,
+                'colors' => $colors,
+                'sizes' => $sizes,
             ];
 
         })->all();

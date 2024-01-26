@@ -16,6 +16,16 @@ class ProductController extends Controller
     {
     }
 
+    public function getAllProductCategories()
+    {
+        $categories = $this->prodService->fetchCategories();
+
+        return response()->json([
+            'success' => true,
+            'categories' => $categories
+        ], 200);
+    }
+
     public function getProductsByCategory(int $category_id): ProductsResource | JsonResponse
     {
         $products = $this->prodService->fetchProductsByCat($category_id);
@@ -44,7 +54,7 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function filterProducts(int $category_id, FilterRequest $request): ProductResource | JsonResponse
+    public function filterProducts(int $category_id, FilterRequest $request): ProductsResource | JsonResponse
     {
         $filterData = [
             'category_id' => $category_id,
@@ -54,7 +64,7 @@ class ProductController extends Controller
 
         $products = $this->prodService->findByFilter($filterData);
 
-        if ($products->isEmpty()) {
+        if (! $products || $products->isEmpty()) {
             return response()->json([
                 'success' => false,
                 'message' => 'No products found for filter criteria: '.$request->filter
