@@ -51,7 +51,7 @@ class CartController extends Controller
         ], 200);
     }
 
-    public function rmvItemFromCart(RmvFromCartRequest $request)
+    public function rmvItemFromCart(RmvFromCartRequest $request): JsonResponse
     {
         $response = $this->cartService->rmvItem($request->item_index);
 
@@ -68,7 +68,7 @@ class CartController extends Controller
         ], 200);
     }
 
-    public function updateCartItemQty(UpdateCartItemQtyRequest $request)
+    public function updateCartItemQty(UpdateCartItemQtyRequest $request): JsonResponse
     {
         $response = $this->cartService->updateItemQty($request->except('cart_token'));
 

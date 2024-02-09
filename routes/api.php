@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ProductController;
 
 /*
@@ -35,20 +36,16 @@ Route::group([
     });
 });
 
-Route::group([
-    'middleware' => 'auth',
-], function () {
-    /**
-     * Product Endpoints
-    */
-    Route::get('product/categories', [ProductController::class, 'getAllProductCategories']);
-    Route::get('products/category/{category_id}', [ProductController::class, 'getProductsByCategory']);
-    Route::get('product/{id}', [ProductController::class, 'getProductById']);
-    Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
-    Route::get('products/search', [ProductController::class, 'searchProducts']);
-    Route::post('product/{id}/save', [ProductController::class, 'saveProduct']);
-    Route::get('products/saved', [ProductController::class, 'getSavedProducts']);
-});
+/**
+ * Product Endpoints
+ */
+Route::get('product/categories', [ProductController::class, 'getAllProductCategories']);
+Route::get('products/category/{category_id}', [ProductController::class, 'getProductsByCategory']);
+Route::get('product/{id}', [ProductController::class, 'getProductById']);
+Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
+Route::get('products/search', [ProductController::class, 'searchProducts']);
+Route::post('product/{id}/save', [ProductController::class, 'saveProduct']);
+Route::get('products/saved', [ProductController::class, 'getSavedProducts']);
 
 /**
  * Cart Endpoints
@@ -60,4 +57,14 @@ Route::group([
     Route::post('item/remove', [CartController::class, 'rmvItemFromCart']);
     Route::get('items/all', [CartController::class, 'getAllCartItems']);
     Route::post('item/update-qty', [CartController::class, 'updateCartItemQty']);
+});
+
+/**
+ * CMS Endpoints
+ */
+Route::group([
+    'middleware' => 'admin.only',
+    'prefix' => 'admin',
+], function () {
+    Route::post('user/add', [AdminController::class, 'addAdminUser']);
 });

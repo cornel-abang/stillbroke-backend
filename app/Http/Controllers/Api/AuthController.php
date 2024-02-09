@@ -23,7 +23,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        $response = $this->authService->registerUser($request->all());
+        $response = $this->authService->registerUser($request->validated());
 
         if (!$response) {
             return response()->json([
@@ -75,7 +75,7 @@ class AuthController extends Controller
 
     public function updateClientProfile(int $user_id, ProfileUpdateRequest $request): JsonResponse
     {
-        $response = $this->authService->updateClientInfo($user_id, $request->all());
+        $response = $this->authService->updateClientInfo($user_id, $request->validated());
 
         if (! $response) {
             return response()->json([

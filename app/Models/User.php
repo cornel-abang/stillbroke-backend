@@ -17,6 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string $last_name
  * @property string $email
  * @property string $password
+ * @property string $role
  * @property BelongsToMany<Product> $savedProducts
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
@@ -41,6 +42,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'role',
     ];
 
     /**
