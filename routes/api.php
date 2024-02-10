@@ -4,8 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
-use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Admin\AdminController;
+use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,12 +61,32 @@ Route::group([
     Route::post('item/update-qty', [CartController::class, 'updateCartItemQty']);
 });
 
+
 /**
- * CMS Endpoints
+ * Admin - CMS Endpoints
  */
 Route::group([
     'middleware' => 'admin.only',
     'prefix' => 'admin',
 ], function () {
-    Route::post('user/add', [AdminController::class, 'addAdminUser']);
+    /**
+     * User endpoints
+     */
+    Route::group([
+        'prefix' => 'user',
+    ], function () {
+        Route::post('/add', [UserController::class, 'addAdminUser']);
+        Route::get('/{id}', [UserController::class, 'getAnyUser']);
+        Route::post('/{id}/update', [UserController::class, 'updateUserDetails']);
+        Route::get('/{id}/delete', [UserController::class, 'deleteUser']);
+    });
+
+    /**
+     * Products endpoints
+     */
+    Route::group([
+        'prefix' => 'product',
+    ], function () {
+        Route::post('/add', [AdminProductController::class, 'addProduct']);
+    });
 });

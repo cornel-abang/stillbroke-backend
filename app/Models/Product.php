@@ -28,6 +28,15 @@ class Product extends Model
 {
     use HasFactory, Searchable, Cartable;
 
+    protected $fillable = [
+        'title', 
+        'price', 
+        'category_id', 
+        'description', 
+        'gender', 
+        'primary_image'
+    ];
+    
     protected $with = ['images', 'colors', 'sizes'];
 
     public function category(): BelongsTo

@@ -16,7 +16,7 @@ class ProductFactory extends Factory
             'title' => fake()->word,
             'price' => fake()->numberBetween(100,5000),
             'category_id' => Category::factory(),
-            'gender' => fake()->randomElement(['male','female']),
+            'gender' => fake()->randomElement(['male','female','unisex']),
             'primary_image' => fake()->imageUrl,
             'description' => fake()->text(500)
         ];
