@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Events\AdminCreatedEvent;
 use App\Events\ClientCreatedEvent;
 use Illuminate\Support\Facades\Event;
+use App\Events\UserPasswordResetEvent;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\AdminCreatedListener;
 use App\Listeners\ClientCreatedListener;
+use App\Listeners\UserPasswordResetListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -27,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         AdminCreatedEvent::class => [
             AdminCreatedListener::class,
+        ],
+        UserPasswordResetEvent::class => [
+            UserPasswordResetListener::class,
         ],
     ];
 

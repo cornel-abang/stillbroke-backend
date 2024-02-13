@@ -9,6 +9,7 @@ use App\Models\VerificationCode;
 use App\Events\ClientCreatedEvent;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Events\UserPasswordResetEvent;
 
 class AuthService
 {
@@ -99,6 +100,21 @@ class AuthService
     {
         $user = User::where('email', $details['email'])->first();
         $user->update(['password' => $details['password']]);
+    }
+
+    public function resetPassword(int $user_id, array $details)
+    {
+        $user = User::find($user_id);
+        
+        if (! $user || ! Hash::check($details['old_password'], $user->password)) {
+            return false;
+        }
+
+        $user->update(['password' => $details['password']]);
+
+        event(new UserPasswordResetEvent($user));
+
+        return true;
     }
 
     public function logoutUser(): void

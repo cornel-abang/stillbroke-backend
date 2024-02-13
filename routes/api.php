@@ -26,13 +26,14 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('verify', [AuthController::class, 'verify']);
-    Route::post('forgot-password', [AuthController::class, 'startPasswordReset']);
-    Route::post('password/update', [AuthController::class, 'completePasswordReset']);
+    Route::post('forgot-password', [AuthController::class, 'startForgotPasswordReset']);
+    Route::post('password/update', [AuthController::class, 'completeForgotPasswordReset']);
 
     Route::group([
         'middleware' => 'auth',
     ], function () {
         Route::post('profile/{user_id}/update', [AuthController::class, 'updateClientProfile']);
+        Route::post('/{user_id}/reset-password', [AuthController::class, 'resetUserPassword']);
         Route::get('current-user', [AuthController::class, 'getCurrentUser']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
@@ -88,5 +89,13 @@ Route::group([
         'prefix' => 'product',
     ], function () {
         Route::post('/add', [AdminProductController::class, 'addProduct']);
+        Route::get('/{id}', [AdminProductController::class, 'getAnyProduct']);
+        Route::post('/{id}/update', [AdminProductController::class, 'updateUproduct']);
+        Route::post('/{id}/image/add', [AdminProductController::class, 'addProductImage']);
+        Route::get('/image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
+        Route::post('/{id}/color/add', [AdminProductController::class, 'addProductColor']);
+        Route::get('/color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
+        Route::post('/{id}/size/add', [AdminProductController::class, 'addProductSize']);
+        Route::get('/size/{size_id}/remove', [AdminProductController::class, 'rmvProductSize']);
     });
 });

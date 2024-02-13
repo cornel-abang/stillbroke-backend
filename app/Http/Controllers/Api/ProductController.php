@@ -47,7 +47,7 @@ class ProductController extends Controller
         if (! $product) {
             return response()->json([
                 'success' => false,
-                'message' => 'Invalid product searched'
+                'message' => 'Unknown product searched'
             ], 404);
         }
 

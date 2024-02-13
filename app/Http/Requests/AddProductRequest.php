@@ -19,8 +19,8 @@ class AddProductRequest extends BaseRequest
             'gender' => 'required|string|in:male,female,unisex',
             'primary_image' => 'required|image',
             'other_images.*' => 'image',
-            'sizes.*' => 'required|string',
             'colors.*' => 'required|string',
+            'sizes.*' => 'required|string',
         ];
     }
 }

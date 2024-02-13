@@ -12,6 +12,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\VerificationRequest;
 use App\Http\Requests\PasswordResetRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use Illuminate\Contracts\Auth\Authenticatable;
 
@@ -90,7 +91,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function startPasswordReset(PasswordResetRequest $request): JsonResponse
+    public function startForgotPasswordReset(PasswordResetRequest $request): JsonResponse
     {
         $response = $this->authService->sendPasswordResteEmail($request->email);
 
@@ -107,7 +108,7 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function completePasswordReset(PasswordUpdateRequest $request): JsonResponse
+    public function completeForgotPasswordReset(PasswordUpdateRequest $request): JsonResponse
     {
         $this->authService->updateUserPassword($request->all());
 
@@ -120,6 +121,23 @@ class AuthController extends Controller
     public function getCurrentUser(): Authenticatable | null
     {
         return auth()->user();
+    }
+
+    public function resetUserPassword(int $user_id, ResetPasswordRequest $request)
+    {
+        $response = $this->authService->resetPassword($user_id, $request->validated());
+
+        if (! $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'User not found or passwords do not match'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Password successfully reset',
+        ], 200);
     }
 
     public function logout(): JsonResponse
