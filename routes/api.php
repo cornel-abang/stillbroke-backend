@@ -113,5 +113,6 @@ Route::group([
         */
         Route::get('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
         Route::get('{id}/unfeature', [AdminProductController::class, 'unfeatureProduct']);
+        Route::get('featured/all', [AdminProductController::class, 'getFeaturedProducts']);
     });
 });

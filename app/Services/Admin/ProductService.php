@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\UpdateProductCatRequest;
 use App\Services\ProductService as AppProductService;
+use Illuminate\Database\Eloquent\Collection;
 
 class ProductService extends AppProductService
 {
@@ -274,7 +275,7 @@ class ProductService extends AppProductService
         return $product->makeFeatured();
     }
 
-    public function unfeatureProduct(int $id)
+    public function unfeatureProduct(int $id): bool
     {
         $product = Product::find($id);
 
@@ -283,5 +284,10 @@ class ProductService extends AppProductService
         }
 
         return $product->makeUnfeatured();
+    }
+
+    public function getFeaturedProducts(): Collection
+    {
+        return Product::where('featured', true)->get();
     }
 }

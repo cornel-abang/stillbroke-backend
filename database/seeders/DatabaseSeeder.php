@@ -11,6 +11,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        User::factory()->create([
+            'email' => 'admin@stillbroke.com',
+            'password' => 
+        ]);
+        
         Product::factory()
             ->hasImages(3)
             ->hasColors(3)

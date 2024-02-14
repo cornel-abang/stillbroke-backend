@@ -175,7 +175,7 @@ class ProductController extends Controller
         return $this->response(true, 'Product successfully deleted', 200);
     }
 
-    public function makeProductFeatured(int $id)
+    public function makeProductFeatured(int $id): JsonResponse
     {
         $response = $this->prodService->featureProduct($id);
 
@@ -186,7 +186,7 @@ class ProductController extends Controller
         return $this->response(true, 'Product successfully featured', 200);
     }
 
-    public function unfeatureProduct(int $id)
+    public function unfeatureProduct(int $id): JsonResponse
     {
         $response = $this->prodService->unfeatureProduct($id);
 
@@ -197,10 +197,20 @@ class ProductController extends Controller
         return $this->response(true, 'Product successfully featured', 200);
     }
 
+    public function getFeaturedProducts(): JsonResponse
+    {
+        $featuredProds = $this->prodService->getFeaturedProducts();
+
+        return $this->response(
+            true, 'Featured products found', 200, 
+            ['featured_products' => $featuredProds]
+        );
+    }
+
     private function response(
         bool $success, string $message, 
         string $status_code, $data = []
-    ){
+    ): JsonResponse {
         return response()->json([
             'success' => $success,
             'message' => $message,

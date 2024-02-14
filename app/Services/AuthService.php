@@ -23,7 +23,7 @@ class AuthService
 
         event(new ClientCreatedEvent($user));
 
-        return $token;
+        return ['token' => $token, 'user' => $user];
     }
 
     public function loginUser(array $details): array|bool
