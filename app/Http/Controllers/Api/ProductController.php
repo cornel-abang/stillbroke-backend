@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
     }
 
-    public function getAllProductCategories()
+    public function getAllProductCategories(): JsonResponse
     {
         $categories = $this->prodService->fetchCategories();
 

@@ -30,6 +30,7 @@ class ProductsResource extends JsonResource
                 'primary_image' => $product->primary_image,
                 'gender' => $product->gender,
                 'description' => $product->description,
+                'featured' => $this->featured,
                 'images' => $images,
                 'colors' => $colors,
                 'sizes' => $sizes,

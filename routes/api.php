@@ -88,14 +88,30 @@ Route::group([
     Route::group([
         'prefix' => 'product',
     ], function () {
-        Route::post('/add', [AdminProductController::class, 'addProduct']);
-        Route::get('/{id}', [AdminProductController::class, 'getAnyProduct']);
-        Route::post('/{id}/update', [AdminProductController::class, 'updateUproduct']);
-        Route::post('/{id}/image/add', [AdminProductController::class, 'addProductImage']);
-        Route::get('/image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
-        Route::post('/{id}/color/add', [AdminProductController::class, 'addProductColor']);
-        Route::get('/color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
-        Route::post('/{id}/size/add', [AdminProductController::class, 'addProductSize']);
-        Route::get('/size/{size_id}/remove', [AdminProductController::class, 'rmvProductSize']);
+        Route::post('add', [AdminProductController::class, 'addProduct']);
+        Route::get('{id}', [AdminProductController::class, 'getAnyProduct']);
+        Route::post('{id}/update', [AdminProductController::class, 'updateUproduct']);
+        Route::delete('{id}/delete', [AdminProductController::class, 'deleteProduct']);
+        /**
+         * Product Extras - Image, Color & Size 
+        */
+        Route::post('{id}/image/add', [AdminProductController::class, 'addProductImage']);
+        Route::get('image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
+        Route::post('{id}/color/add', [AdminProductController::class, 'addProductColor']);
+        Route::get('color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
+        Route::post('{id}/size/add', [AdminProductController::class, 'addProductSize']);
+        Route::get('size/{size_id}/remove', [AdminProductController::class, 'rmvProductSize']);
+        /**
+         * Product Category  
+        */
+        Route::post('category/add', [AdminProductController::class, 'addProductCategory']);
+        Route::post('category/{id}/update', [AdminProductController::class, 'updateProductCategory']);
+        Route::get('categories/all', [AdminProductController::class, 'getProductCategories']);
+        Route::delete('category/{id}/delete', [AdminProductController::class, 'deleteProductCategory']);
+        /**
+         * Featured Product 
+        */
+        Route::get('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
+        Route::get('{id}/unfeature', [AdminProductController::class, 'unfeatureProduct']);
     });
 });

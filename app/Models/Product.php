@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $description
  * @property string $gender
  * @property string $primary_image
+ * @property bool $featured
  * @property BelongsTo<Category> $category
  * @property HasMany<ProductImage> $images
  * @property HasMany<ProductSize> $sizes
@@ -36,7 +37,7 @@ class Product extends Model
         'gender', 
         'primary_image'
     ];
-    
+
     protected $with = ['images', 'colors', 'sizes'];
 
     public function category(): BelongsTo
@@ -66,6 +67,20 @@ class Product extends Model
 
     public function getImage()
     {
-        return $this->attributes['primary_image'];;
+        return $this->attributes['primary_image'];
+    }
+
+    public function makeFeatured(): bool
+    {
+        $this->attributes['featured'] = true;
+
+        return $this->save();
+    }
+
+    public function makeUnfeatured(): bool
+    {
+        $this->attributes['featured'] = false;
+        
+        return $this->save();
     }
 }

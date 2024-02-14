@@ -4,13 +4,15 @@ namespace App\Services\Admin;
 
 use Exception;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductSize;
+use App\Models\ProductColor;
+use App\Models\ProductImage;
 use App\Jobs\UploadProductImgJob;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\ProductColor;
-use App\Models\ProductImage;
-use App\Models\ProductSize;
+use App\Http\Requests\UpdateProductCatRequest;
 use App\Services\ProductService as AppProductService;
 
 class ProductService extends AppProductService
@@ -191,5 +193,95 @@ class ProductService extends AppProductService
         $size->delete();
 
         return true;
+    }
+    
+    public function addProductCategory(array $details): bool
+    {
+        $image_url = self::uploadImageFile($details['image']);
+        if (! $image_url) {
+            return false;
+        }
+
+        Category::create([
+            'name' => $details['name'],
+            'image' => $image_url,
+        ]);
+
+        return true;
+    }
+
+    public function updateProductCategory(int $id, UpdateProductCatRequest $request)
+    {
+        $category = Category::find($id);
+
+        if (! $category) {
+            return false;
+        }
+
+        $updateData = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $old_image = $category->image;
+            $new_image = self::uploadImageFile($request->image);
+            $updateData['image'] = $new_image;
+            
+            // delete old image
+            $old_img_path = public_path( parse_url($old_image)['path'] );
+            if (File::exists($old_img_path)) {
+                File::delete($old_img_path);
+            }
+        }
+
+        $category->update($updateData);
+
+        return true;
+    }
+
+    public function deleteProductCategory(int $id): bool
+    {
+        $category = Category::find($id);
+
+        if (! $category) {
+            return false;
+        }
+
+        $category->delete();
+        
+        return true;
+    }
+
+    public function deleteProduct(int $id): bool
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        $product->delete();
+        
+        return true;
+    }
+
+    public function featureProduct(int $id): bool
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        return $product->makeFeatured();
+    }
+
+    public function unfeatureProduct(int $id)
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        return $product->makeUnfeatured();
     }
 }
