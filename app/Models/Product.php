@@ -18,6 +18,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string $gender
  * @property string $primary_image
  * @property bool $featured
+ * @property bool $discounted
+ * @property int $duration
+ * @property int $percentage
  * @property BelongsTo<Category> $category
  * @property HasMany<ProductImage> $images
  * @property HasMany<ProductSize> $sizes
@@ -35,7 +38,10 @@ class Product extends Model
         'category_id', 
         'description', 
         'gender', 
-        'primary_image'
+        'primary_image',
+        'discounted',
+        'duration',
+        'percentage',
     ];
 
     protected $with = ['images', 'colors', 'sizes'];
@@ -80,6 +86,29 @@ class Product extends Model
     public function makeUnfeatured(): bool
     {
         $this->attributes['featured'] = false;
+        
+        return $this->save();
+    }
+
+    public function discount(int $percentage, int $duration): bool
+    {
+        $this->attributes['discounted'] = true;
+        $this->attributes['percentage'] = $percentage;
+        $this->attributes['duration'] = $duration;
+        
+        return $this->save();
+    }
+
+    public function updateDiscount(array $data)
+    {
+        return $this->update($data);
+    }
+
+    public function removeDiscount(): bool
+    {
+        $this->attributes['discounted'] = false;
+        $this->attributes['percentage'] = 0;
+        $this->attributes['duration'] = 0;
         
         return $this->save();
     }

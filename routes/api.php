@@ -114,5 +114,15 @@ Route::group([
         Route::get('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
         Route::get('{id}/unfeature', [AdminProductController::class, 'unfeatureProduct']);
         Route::get('featured/all', [AdminProductController::class, 'getFeaturedProducts']);
+        /**
+         * Discount endpoints
+         */
+        Route::group([
+            'prefix' => '{id}/discount',
+        ], function () {
+            Route::post('add', [AdminProductController::class, 'addProductDiscount']);
+            Route::post('update', [AdminProductController::class, 'updateProductDiscount']);
+            Route::get('remove', [AdminProductController::class, 'removeProductDiscount']);
+        });
     });
 });

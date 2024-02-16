@@ -13,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\File;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\UpdateProductCatRequest;
+use App\Models\Discount;
 use App\Services\ProductService as AppProductService;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -289,5 +290,51 @@ class ProductService extends AppProductService
     public function getFeaturedProducts(): Collection
     {
         return Product::where('featured', true)->get();
+    }
+
+    public function addDiscount(array $info): bool
+    {
+        $product = Product::find($info['product_id']);
+
+        if (! $product) {
+            return false;
+        }
+
+        $product->discount($info['percentage'], $info['duration']);
+
+        return true;
+    }
+
+    public function getDiscount(int $id)
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        return $product->getDiscount();
+    }
+
+    public function updateDiscount(array $details): bool
+    {
+        $product = Product::find($details['id']);
+
+        if (! $product) {
+            return false;
+        }
+        
+        return $product->updateDiscount($details);
+    }
+
+    public function rmvProductDiscount(int $id)
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        return $product->removeDiscount();
     }
 }

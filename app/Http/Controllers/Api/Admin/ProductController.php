@@ -13,7 +13,9 @@ use App\Http\Requests\AddProdColorRequest;
 use App\Http\Requests\AddProdImageRequest;
 use App\Http\Requests\AddProductCatRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\AddProdDiscountRequest;
 use App\Http\Requests\UpdateProductCatRequest;
+use App\Http\Requests\UpdateProdDiscountRequest;
 
 class ProductController extends Controller
 {
@@ -205,6 +207,43 @@ class ProductController extends Controller
             true, 'Featured products found', 200, 
             ['featured_products' => $featuredProds]
         );
+    }
+
+    public function addProductDiscount(int $id, AddProdDiscountRequest $request): JsonResponse
+    {
+        $response = $this->prodService->addDiscount(
+            array_merge($request->validated(), ['product_id' => $id])
+        );
+
+        if (! $response) {
+            return $this->response(false, 'Product not found', 404);
+        }
+
+        return $this->response(true, 'Product discount successfully added', 200);
+    }
+
+    public function updateProductDiscount(UpdateProdDiscountRequest $request, int $id): JsonResponse
+    {
+        $response = $this->prodService->updateDiscount(array_merge(
+            $request->validated(), ['id' => $id], ['discounted' => true]
+        ));
+
+        if (! $response) {
+            return $this->response(false, 'Product not found', 404);
+        }
+
+        return $this->response(true, 'Product discount successfully updated', 200);
+    }
+
+    public function removeProductDiscount(int $id): JsonResponse
+    {
+        $response = $this->prodService->rmvProductDiscount($id);
+
+        if (! $response) {
+            return $this->response(false, 'Product not found', 404);
+        }
+
+        return $this->response(true, 'Product discount successfully removed', 200);
     }
 
     private function response(
