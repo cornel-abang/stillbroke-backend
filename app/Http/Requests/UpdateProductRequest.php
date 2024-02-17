@@ -17,7 +17,7 @@ class UpdateProductRequest extends BaseRequest
             'category_id' => 'required_without_all:price,title,description,gender,primary_image|integer|exists:categories,id',
             'description' => 'required_without_all:price,category_id,title,gender,primary_image|string',
             'gender' => 'required_without_all:price,category_id,description,title,primary_image|string|in:male,female,unisex',
-            'primary_image' => 'required_without_all:price,category_id,description,gender,title|image',
+            'primary_image' => 'required_without_all:price,category_id,description,gender,title|string',
         ];
     }
 

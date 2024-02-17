@@ -13,7 +13,7 @@ class AddProdImageRequest extends BaseRequest
     {
         return [
             'other_images' => 'required|array',
-            'other_images.*' => 'required|image'
+            'other_images.*' => 'required|string'
         ];
     }
 }

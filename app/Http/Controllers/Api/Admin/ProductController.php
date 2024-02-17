@@ -25,11 +25,7 @@ class ProductController extends Controller
 
     public function addProduct(AddProductRequest $request): JsonResponse
     {
-        $response = $this->prodService->addProduct($request->validated());
-
-        if (! $response) {
-            return $this->response(false, 'Unable to add product', 500);
-        }
+        $this->prodService->addProduct($request->validated());
 
         return $this->response(true, 'Product added successfully', 200);
     }

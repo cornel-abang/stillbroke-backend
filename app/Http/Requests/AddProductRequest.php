@@ -17,8 +17,8 @@ class AddProductRequest extends BaseRequest
             'category_id' => 'required|integer|exists:categories,id',
             'description' => 'required|string',
             'gender' => 'required|string|in:male,female,unisex',
-            'primary_image' => 'required|image',
-            'other_images.*' => 'image',
+            'primary_image' => 'required|string',
+            'other_images.*' => 'string',
             'colors.*' => 'required|string',
             'sizes.*' => 'required|string',
         ];

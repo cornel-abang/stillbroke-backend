@@ -13,7 +13,7 @@ class AddProductCatRequest extends BaseRequest
     {
         return [
             'name' => 'required|string',
-            'image' => 'required|image'
+            'image' => 'required|string'
         ];
     }
 }

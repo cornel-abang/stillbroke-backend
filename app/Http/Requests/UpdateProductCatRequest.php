@@ -13,7 +13,7 @@ class UpdateProductCatRequest extends BaseRequest
     {
         return [
             'name' => 'required_without_all:image|string',
-            'image' => 'required_without_all:name|image'
+            'image' => 'required_without_all:name|string'
         ];
     }
 
