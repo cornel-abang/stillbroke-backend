@@ -180,15 +180,15 @@ class ProductService extends AppProductService
         return true;
     }
 
-    public function featureProduct(int $id): bool
+    public function featureProduct(array $data): bool
     {
-        $product = Product::find($id);
+        $product = Product::find($data['id']);
 
         if (! $product) {
             return false;
         }
 
-        return $product->makeFeatured();
+        return $product->makeFeatured($data['feature_text']);
     }
 
     public function unfeatureProduct(int $id): bool

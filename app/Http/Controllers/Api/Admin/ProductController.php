@@ -16,6 +16,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\AddProdDiscountRequest;
 use App\Http\Requests\UpdateProductCatRequest;
 use App\Http\Requests\UpdateProdDiscountRequest;
+use App\Http\Requests\MakeProductFeaturedRequest;
 
 class ProductController extends Controller
 {
@@ -173,9 +174,12 @@ class ProductController extends Controller
         return $this->response(true, 'Product successfully deleted', 200);
     }
 
-    public function makeProductFeatured(int $id): JsonResponse
+    public function makeProductFeatured(MakeProductFeaturedRequest $request, int $id): JsonResponse
     {
-        $response = $this->prodService->featureProduct($id);
+        $response = $this->prodService->featureProduct([
+            'id' => $id, 
+            'feature_text' => $request->feature_text
+        ]);
 
         if (! $response) {
             return $this->response(false, 'Unable to feature product or not found', 404);
