@@ -30,7 +30,7 @@
 		<div class="flex-w flex-col-sb wsize1 bg0 p-l-65 p-t-37 p-b-50 p-r-80 respon1">
 			<div class="wrappic1">
 				<a href="#">
-					<img src="{{ asset('assets/images/icons/logo.png') }}" alt="IMG" style="height:73px; width:140px; margin-left: 100px;">
+					<img src="{{ asset('assets/images/icons/logo.png') }}" alt="IMG" style="height:77px; width:140px; margin-left: 100px;">
 				</a>
 			</div>		
 	
