@@ -130,6 +130,8 @@ return [
 
     'frontend_pass_reset_url' => env('FRONTEND_PASS_RESET_URL'),
 
+    'stripe_secret' => env('STRIPE_SECRET'),
+
     /*
     |--------------------------------------------------------------------------
     | Maintenance Mode Driver

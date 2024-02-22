@@ -6,7 +6,8 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Admin\UserController;
-use App\Http\Controllers\Api\Admin\AdminController;
+use App\Http\Controllers\Api\Admin\OrderController;
+use App\Http\Controllers\Api\Admin\PaymentController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 
 /*
@@ -37,6 +38,26 @@ Route::group([
         Route::get('current-user', [AuthController::class, 'getCurrentUser']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
+});
+
+/**
+ * Payment endpoints
+ */
+Route::group([
+    'middleware' => 'auth',
+    'prefix' => 'payment',
+], function () {
+    Route::post('pay', [PaymentController::class, 'processPayment']);
+});
+
+/**
+ * Order endpoints
+ */
+Route::group([
+    'middleware' => 'auth',
+    'prefix' => 'order',
+], function () {
+    Route::get('user/{id}/all', [OrderController::class, 'getAllUserOrders']);
 });
 
 /**

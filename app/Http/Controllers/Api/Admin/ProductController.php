@@ -245,15 +245,4 @@ class ProductController extends Controller
 
         return $this->response(true, 'Product discount successfully removed', 200);
     }
-
-    private function response(
-        bool $success, string $message, 
-        string $status_code, $data = []
-    ): JsonResponse {
-        return response()->json([
-            'success' => $success,
-            'message' => $message,
-            'data' => $data
-        ], $status_code);
-    }
 }
