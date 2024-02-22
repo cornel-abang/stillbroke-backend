@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property bool $discounted
  * @property int $duration
  * @property int $percentage
+ * @property int $avail_qty
  * @property BelongsTo<Category> $category
  * @property HasMany<ProductImage> $images
  * @property HasMany<ProductSize> $sizes
@@ -42,11 +43,12 @@ class Product extends Model
         'discounted',
         'duration',
         'percentage',
+        'avail_qty'
     ];
 
     protected $with = ['images', 'colors', 'sizes'];
 
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot']; 
 
     public function category(): BelongsTo
     {

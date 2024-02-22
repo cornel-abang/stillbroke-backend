@@ -7,6 +7,7 @@ use App\Services\CartService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\UpdateCartRequest;
 use App\Http\Requests\RmvFromCartRequest;
 use App\Http\Requests\UpdateCartItemQtyRequest;
 
@@ -35,7 +36,7 @@ class CartController extends Controller
             ], 400);
         }
 
-        $cartItems = $this->cartService->getCartItems();
+        $cartItems = $this->cartService->getCart();
         
         if ([] == $cartItems['items']) {
             return response()->json([
@@ -82,6 +83,19 @@ class CartController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Item quantity updated',
+        ], 200);
+    }
+
+    public function updateCartData(UpdateCartRequest $request): JsonResponse
+    {
+        $update = $this->cartService->updateCart($request->except('cart_token'));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart attribute updated',
+            'data' => [
+                'cart' => $update
+            ]
         ], 200);
     }
 }

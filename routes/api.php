@@ -88,6 +88,7 @@ Route::group([
     Route::post('item/remove', [CartController::class, 'rmvItemFromCart']);
     Route::get('items/all', [CartController::class, 'getAllCartItems']);
     Route::post('item/update-qty', [CartController::class, 'updateCartItemQty']);
+    Route::post('update', [CartController::class, 'updateCartData']);
 });
 
 

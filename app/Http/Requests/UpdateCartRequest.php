@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class AddToCartRequest extends BaseRequest
+class UpdateCartRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -12,11 +12,11 @@ class AddToCartRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|integer|exists:products,id',
-            'qty' => 'required|integer|min:1',
-            'cart_token' => 'required|string',
+            'quantity' => 'string',
             'size' => 'string',
             'color' => 'string',
+            'cart_token' => 'required|string',
+            'product_id' => 'required|integer|exists:products,id',
         ];
     }
 }
