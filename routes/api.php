@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Admin\UserController;
-use App\Http\Controllers\Api\Admin\OrderController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Api\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Api\Admin\PaymentController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 
@@ -150,5 +152,23 @@ Route::group([
             Route::post('update', [AdminProductController::class, 'updateProductDiscount']);
             Route::get('remove', [AdminProductController::class, 'removeProductDiscount']);
         });
+    });
+
+    /**
+     * Order endpoints
+     */
+    Route::group([
+        'prefix' => 'order',
+    ], function () {
+        Route::get('all', [AdminOrderController::class, 'getAllOrders']);
+    });
+
+    /**
+     * Payment endpoints
+     */
+    Route::group([
+        'prefix' => 'payment',
+    ], function () {
+        Route::get('all', [AdminPaymentController::class, 'getAllPayments']);
     });
 });
