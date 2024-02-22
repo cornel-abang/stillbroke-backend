@@ -68,8 +68,13 @@ Route::get('products/category/{category_id}', [ProductController::class, 'getPro
 Route::get('product/{id}', [ProductController::class, 'getProductById']);
 Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
 Route::get('products/search', [ProductController::class, 'searchProducts']);
-Route::post('product/{id}/save', [ProductController::class, 'saveProduct']);
-Route::get('products/saved', [ProductController::class, 'getSavedProducts']);
+Route::group([
+    'middleware' => 'auth',
+], function () {
+    Route::post('product/{id}/save', [ProductController::class, 'saveProduct']);
+    Route::get('products/saved', [ProductController::class, 'getSavedProducts']);
+    Route::delete('product/saved/{id}', [ProductController::class, 'deleteSavedProducts']);
+});
 
 /**
  * Cart Endpoints

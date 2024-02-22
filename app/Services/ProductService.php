@@ -72,4 +72,15 @@ class ProductService
     {
         return auth()->user()->savedProducts;
     }
+
+    public function deleteSaved(int $id): bool
+    {
+        $savedProduct = SavedProduct::where('product_id', $id);
+
+        if (! $savedProduct) {
+            return false;
+        }
+
+        return $savedProduct->delete();
+    }
 }

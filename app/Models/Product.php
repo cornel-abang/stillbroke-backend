@@ -46,6 +46,8 @@ class Product extends Model
 
     protected $with = ['images', 'colors', 'sizes'];
 
+    protected $hidden = ['pivot'];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
@@ -24,4 +25,11 @@ class Order extends Model
         'payment_ref',
         'receipt_url',
     ];
+
+    protected $with = ['items'];
+
+    public function items(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, OrderProduct::class);
+    }
 }

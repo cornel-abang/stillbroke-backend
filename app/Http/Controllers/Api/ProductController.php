@@ -127,4 +127,21 @@ class ProductController extends Controller
 
         return new ProductsResource($savedProducts);
     }
+
+    public function deleteSavedProducts($id)
+    {
+        $response = $this->prodService->deleteSaved($id);
+
+        if (! $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Trying to unsave an unknown item'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Item unsaved successfully'
+        ], 201);
+    }
 }
