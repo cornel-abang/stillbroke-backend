@@ -162,6 +162,7 @@ Route::group([
         'prefix' => 'order',
     ], function () {
         Route::get('all', [AdminOrderController::class, 'getAllOrders']);
+        // Route::get('{}', [AdminOrderController::class, 'getAllOrders']);
     });
 
     /**
