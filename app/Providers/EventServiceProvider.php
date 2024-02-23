@@ -35,9 +35,6 @@ class EventServiceProvider extends ServiceProvider
         UserPasswordResetEvent::class => [
             UserPasswordResetListener::class,
         ],
-        PaymentMadeEvent::class => [
-            PaymentMadeListener::class,
-        ],
     ];
 
     /**

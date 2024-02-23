@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\Admin\PaymentController as AdminPaymentController;
-use App\Http\Controllers\Api\Admin\PaymentController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 
 /*

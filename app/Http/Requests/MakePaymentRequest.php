@@ -15,7 +15,9 @@ class MakePaymentRequest extends BaseRequest
             "amount" => "required|integer",
             "stripeToken" => "required|string",
             "user_id" => "required|integer|exists:users,id",
-            "cart_token" => "required|string"
+            "cart_token" => "required|string",
+            "shipping_address" => "required|string",
+            "shipping_phone" => "required|string",
         ];
     }
 }

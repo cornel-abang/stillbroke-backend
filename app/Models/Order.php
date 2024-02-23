@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $amount
  * @property string $payment_ref
  * @property string $receipt_url
+ * @property string $shipping_address
+ * @property string $shipping_phone
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  */
@@ -24,6 +27,8 @@ class Order extends Model
         'amount',
         'payment_ref',
         'receipt_url',
+        'shipping_address',
+        'shipping_phone',
     ];
 
     protected $with = ['items'];
@@ -31,5 +36,10 @@ class Order extends Model
     public function items(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, OrderProduct::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

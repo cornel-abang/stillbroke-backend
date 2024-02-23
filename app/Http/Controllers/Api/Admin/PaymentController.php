@@ -16,6 +16,9 @@ class PaymentController extends Controller
 
     public function getAllPayments()
     {
-        $payments = $this->paymentService->fetchPayments();
+        return $this->response(
+            true, 'Payments found', 200, 
+            $this->paymentService->fetchPayments()
+        );
     }
 }

@@ -72,4 +72,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Order::class);
     }
+
+    public function getNameAttribute()
+    {
+        return $this->attributes['first_name'] .' '. $this->attributes['last_name'];
+    }
 }

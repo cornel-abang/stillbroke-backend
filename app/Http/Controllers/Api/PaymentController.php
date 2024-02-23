@@ -19,7 +19,7 @@ class PaymentController extends Controller
         list($response, $message) = $this->paymentService->makePayment($request->validated());
 
         if (! $response) {
-            return $this->response(false, $message, 404);
+            return $this->response(false, $message, 500);
         }
 
         return $this->response(true, $message, 200);
