@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Services\Admin\PaymentService;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MakePaymentRequest;
 
 class PaymentController extends Controller
 {
@@ -14,7 +13,7 @@ class PaymentController extends Controller
     {
     }
 
-    public function getAllPayments()
+    public function getAllPayments(): JsonResponse
     {
         return $this->response(
             true, 'Payments found', 200, 
