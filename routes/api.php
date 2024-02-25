@@ -59,7 +59,8 @@ Route::group([
     'middleware' => 'auth',
     'prefix' => 'order',
 ], function () {
-    Route::get('user/{id}/all', [OrderController::class, 'getAllUserOrders']);
+    Route::get('all', [OrderController::class, 'getAllUserOrders']);
+    Route::get('{id}', [OrderController::class, 'getOrder']);
 });
 
 /**

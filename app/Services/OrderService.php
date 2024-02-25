@@ -3,17 +3,24 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Order;
+use Illuminate\Database\Eloquent\Collection;
 
 class OrderService
 {
-    public function fetchOrders(int $id)
+    public function fetchAllOrders(): Collection
     {
-        $user = User::find($id);
+        return auth()->user()->orders;
+    }
 
-        if (! $user) {
-            return false;
+    public function fetchOrder(int $id): ?Order 
+    {
+        $order = Order::find($id);
+
+        if (! $order) {
+            return null;
         }
 
-        return $user->orders;
+        return $order;
     }
 }
