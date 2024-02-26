@@ -4,12 +4,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Admin\UserController;
-use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\Admin\PaymentController as AdminPaymentController;
-use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
 
 /*
@@ -42,25 +43,26 @@ Route::group([
     });
 });
 
-/**
- * Payment endpoints
- */
 Route::group([
     'middleware' => 'auth',
-    'prefix' => 'payment',
 ], function () {
-    Route::post('pay', [PaymentController::class, 'processPayment']);
-});
-
-/**
- * Order endpoints
- */
-Route::group([
-    'middleware' => 'auth',
-    'prefix' => 'order',
-], function () {
-    Route::get('all', [OrderController::class, 'getAllUserOrders']);
-    Route::get('{id}', [OrderController::class, 'getOrder']);
+    /**
+     * Order endpoints
+     */
+    Route::group([
+        'prefix' => 'order',
+    ], function () {
+        Route::get('all', [OrderController::class, 'getAllUserOrders']);
+        Route::get('{id}', [OrderController::class, 'getOrder']);
+    });
+    /**
+     * Payment endpoints
+     */
+    Route::group([
+        'prefix' => 'payment',
+    ], function () {
+        Route::post('pay', [PaymentController::class, 'processPayment']);
+    });
 });
 
 /**
@@ -90,6 +92,21 @@ Route::group([
     Route::get('items/all', [CartController::class, 'getAllCartItems']);
     Route::post('item/update-qty', [CartController::class, 'updateCartItemQty']);
     Route::post('update', [CartController::class, 'updateCartData']);
+});
+
+/**
+ * General Endpoints
+ */
+Route::group([
+    'prefix' => 'gen',
+], function () {
+    Route::post('contact-us', [GeneralController::class, 'sendContactNotify']);
+    Route::post('newsletter/subscribe', [GeneralController::class, 'subscribeToNewsletter']);
+    Route::post('newsletter/unsubscribe', [GeneralController::class, 'unsubscribeNewsletter']);
+    Route::get('main-video', [GeneralController::class, 'getMainVideo']);
+    Route::get('about-us', [GeneralController::class, 'getAboutUsInfo']);
+    Route::get('privacy-policy', [GeneralController::class, 'getPrivacyPolicy']);
+    Route::get('terms', [GeneralController::class, 'getTermsConditions']);
 });
 
 
@@ -163,7 +180,6 @@ Route::group([
         'prefix' => 'order',
     ], function () {
         Route::get('all', [AdminOrderController::class, 'getAllOrders']);
-        // Route::get('{}', [AdminOrderController::class, 'getAllOrders']);
     });
 
     /**
@@ -173,5 +189,18 @@ Route::group([
         'prefix' => 'payment',
     ], function () {
         Route::get('all', [AdminPaymentController::class, 'getAllPayments']);
+    });
+
+    /**
+     * General endpoints
+     */
+    Route::group([
+        'prefix' => 'gen',
+    ], function () {
+        Route::post('about-us', [GeneralController::class, 'saveAboutUsInfo']);
+        Route::post('privacy-policy', [GeneralController::class, 'savePrivacyPolicy']);
+        Route::post('terms', [GeneralController::class, 'saveTermsConditions']);
+        Route::post('/', [GeneralController::class, 'updateGenData']);
+        Route::post('main-video', [GeneralController::class, 'updateMainVideo']);
     });
 });

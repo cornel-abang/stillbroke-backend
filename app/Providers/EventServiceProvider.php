@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\ContactUsEvent;
 use App\Events\PaymentMadeEvent;
 use App\Events\AdminCreatedEvent;
 use App\Events\ClientCreatedEvent;
+use App\Listeners\ContactUsListener;
 use Illuminate\Support\Facades\Event;
 use App\Events\UserPasswordResetEvent;
 use App\Listeners\PaymentMadeListener;
@@ -34,6 +36,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserPasswordResetEvent::class => [
             UserPasswordResetListener::class,
+        ],
+        ContactUsEvent::class => [
+            ContactUsListener::class,
         ],
     ];
 
