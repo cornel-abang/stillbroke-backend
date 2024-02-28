@@ -136,9 +136,12 @@ Route::group([
         'prefix' => 'product',
     ], function () {
         Route::post('add', [AdminProductController::class, 'addProduct']);
+        Route::get('all', [AdminProductController::class, 'getAllProducts']);
         Route::get('{id}', [AdminProductController::class, 'getAnyProduct']);
         Route::post('{id}/update', [AdminProductController::class, 'updateUproduct']);
         Route::delete('{id}/delete', [AdminProductController::class, 'deleteProduct']);
+        // Get all products
+        // fetch all cart items returning 500 error
         /**
          * Product Extras - Image, Color & Size 
         */

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Admin\ProductService;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\AddProductRequest;
+use App\Http\Resources\ProductsResource;
 use App\Http\Requests\AddProdSizeRequest;
 use App\Http\Requests\AddProdColorRequest;
 use App\Http\Requests\AddProdImageRequest;
@@ -51,6 +52,13 @@ class ProductController extends Controller
         }
 
         return $this->response(true, 'Product updated successfully', 200);
+    }
+
+    public function getAllProducts()
+    {
+        $products = $this->prodService->fetchAllProducts();
+
+        return new ProductsResource($products);
     }
 
     public function rmvProductImage(int $img_id): JsonResponse

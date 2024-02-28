@@ -38,28 +38,28 @@ class GeneralController extends Controller
         return $this->response(true, 'Unsubscribed from newsletter', 201);
     }
 
-    public function getAboutUsInfo()
+    public function getAboutUsInfo(): JsonResponse
     {
         $aboutUs = $this->genService->fetchAboutUs();
 
         return $this->response(true, 'Found', 200, ['about-us' => $aboutUs]);
     }
 
-    public function getPrivacyPolicy()
+    public function getPrivacyPolicy(): JsonResponse
     {
         $privacy = $this->genService->fetchPrivacy();
 
         return $this->response(true, 'Found', 200, ['privacy' => $privacy]);
     }
 
-    public function getTermsConditions()
+    public function getTermsConditions(): JsonResponse
     {
         $terms = $this->genService->fetchTerms();
 
         return $this->response(true, 'Found', 200, ['terms' => $terms]);
     }
 
-    public function saveAboutUsInfo(Request $request)
+    public function saveAboutUsInfo(Request $request): JsonResponse
     {
         if (! $request->about || $request->about == '') {
             return $this->response(false, 'The about us text is required', 401);
@@ -70,7 +70,7 @@ class GeneralController extends Controller
         return $this->response(true, 'Info saved', 201);
     }
 
-    public function savePrivacyPolicy(Request $request)
+    public function savePrivacyPolicy(Request $request): JsonResponse
     {
         if (! $request->policy || $request->policy == '') {
             return $this->response(false, 'The privacy policy text is required', 401);
@@ -81,7 +81,7 @@ class GeneralController extends Controller
         return $this->response(true, 'Info saved', 201);
     }
 
-    public function saveTermsConditions(Request $request)
+    public function saveTermsConditions(Request $request): JsonResponse
     {
         if (! $request->terms || $request->terms == '') {
             return $this->response(false, 'The Terms & Conditions text is required', 401);
@@ -92,14 +92,14 @@ class GeneralController extends Controller
         return $this->response(true, 'Info saved', 201);
     }
 
-    public function updateGenData(GenUpdateRequest $request)
+    public function updateGenData(GenUpdateRequest $request): JsonResponse
     {
         $this->genService->updateGenCompanyData($request->validated());
 
         return $this->response(true, 'Info updated', 200);
     }
 
-    public function updateMainVideo(Request $request)
+    public function updateMainVideo(Request $request): JsonResponse
     {
         if (! $request->video_url || $request->video_url == '') {
             return $this->response(false, 'The main video is required', 401);
@@ -110,7 +110,7 @@ class GeneralController extends Controller
         return $this->response(true, 'Info updated', 200);
     }
 
-    public function getMainVideo()
+    public function getMainVideo(): JsonResponse
     {
         $video = $this->genService->fetchMainVideo();
 

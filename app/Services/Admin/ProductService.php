@@ -40,6 +40,11 @@ class ProductService extends AppProductService
         return true;
     }
 
+    public function fetchAllProducts(): Collection
+    {
+        return Product::all();
+    }
+
     public function removeProductImg($img_id): bool
     {
         $image = ProductImage::find($img_id);
