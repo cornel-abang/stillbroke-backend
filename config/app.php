@@ -128,7 +128,7 @@ return [
     
     'frontend_verify_url' => env('FRONTEND_URL').'/auth/email-verification?code=%s&client=%d&email=%s',
 
-    'frontend_pass_reset_url' => env('FRONTEND_URL').'/auth/reset--password',
+    'frontend_pass_reset_url' => env('FRONTEND_URL').'/auth/reset-password',
 
     'payment_confirmation' => env('FRONTEND_URL').'/payment/confirm',
 
