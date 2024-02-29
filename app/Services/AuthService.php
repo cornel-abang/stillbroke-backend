@@ -117,7 +117,7 @@ class AuthService
         return true;
     }
 
-    public function resendVerificationLink()
+    public function resendVerificationLink(): void
     {
         /** Just trigger event again to send mail */
         event(new ClientCreatedEvent(auth()->user()));
