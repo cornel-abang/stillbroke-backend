@@ -62,6 +62,7 @@ Route::group([
         'prefix' => 'payment',
     ], function () {
         Route::post('pay', [PaymentController::class, 'processPayment']);
+        Route::post('/confirm', [PaymentController::class, 'confirmPayment']);
     });
 });
 

@@ -14,11 +14,17 @@ class CartService
         cart()->setUser(request()->cart_token);
     }
 
-    public function addItem(array $info): void
+    public function addItem(array $info): bool
     {
+        if ($this->itemExists($info['product_id'])) {
+            return false;
+        }
+
         Product::addToCart($info['product_id'], $info['qty']);
 
         self::addExtraFieldsToCart($info);
+
+        return true;
     }
 
     public function getCart(): array
@@ -93,5 +99,26 @@ class CartService
             ->update($updateData);
 
         return $this->getCart();
+    }
+
+    public static function clear()
+    {
+        return cart()->clear();
+    }
+
+    private function itemExists(int $modelId)
+    {
+        $cart = DB::table('carts')
+            ->where('auth_user', request()->cart_token)
+            ->first();
+
+        if (! $cart) {
+            return false;
+        }
+
+        return DB::table('cart_items')
+            ->where('model_id', $modelId)
+            ->where('cart_id', $cart->id)
+            ->exists();
     }
 }

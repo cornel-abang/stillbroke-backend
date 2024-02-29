@@ -130,7 +130,7 @@ return [
 
     'frontend_pass_reset_url' => env('FRONTEND_PASS_RESET_URL'),
 
-    'stripe_secret' => env('STRIPE_SECRET'),
+    'payment_confirmation' => env('FRONTEND_URL').'/payment/confirmm',
 
     /*
     |--------------------------------------------------------------------------

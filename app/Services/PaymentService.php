@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use Stripe\Charge;
-use Stripe\Stripe;
+use KingFlamez\Rave\Facades\Rave as Flutterwave;
 use App\Models\Order;
 use App\Models\OrderProduct;
 
@@ -11,32 +10,52 @@ class PaymentService
 {
     public function makePayment(array $info): array
     {
-        cart()->setUser($info['cart_token']);
-
-        Stripe::setApiKey(config('app.stripe_secret'));
-
         $order = $this->createOrder($info);
+
+        $reference = Flutterwave::generateReference();
+
+        $data = [
+            'amount' => $info['amount'],
+            'email' => auth()->user()->email,
+            'tx_ref' => $reference,
+            'currency' => "USD",
+            'redirect_url' => config('app.payment_confirmation'),
+            'customer' => [
+                'email' => auth()->user()->email,
+                "phone_number" => $info['shipping_phone'],
+                "name" => auth()->user()->name
+            ],
+            "metadata" => [
+                "order_id" => $order->id,
+            ]
+        ];
         
-        try {
-            $charge = Charge::create([
-                'amount' => $info['amount'],
-                'currency' => 'usd',
-                'source' => $info['stripeToken'],
-                'description' => 'Stillbroke - Payment',
-            ]);
-            
-            if ($charge->paid && $charge->status === 'succeeded') {
-                $order->payment_ref = $charge->id;
-                $order->receipt_url = $charge->receipt_url;
-                $order->save();
+        $payment = Flutterwave::initializePayment($data);
 
-                return [true, 'Payment successful'];
-            }
-
-            return [false, 'Payment unsuccessful'];
-        } catch (\Exception $e) {
-            return [false, $e->getMessage()];
+        if ($payment['status'] !== 'success') {
+            return [false, 'Unable to initialize payment', null];
         }
+
+        return [true, 'Payment successfully initialized', $payment['data']['link']];
+    }
+
+    public function makePaymentConfirmation(): bool
+    {
+        $transactionID = Flutterwave::getTransactionIDFromCallback();
+        $transaction = Flutterwave::verifyTransaction($transactionID);
+
+        if ($transaction['status'] == 'success') {
+            $order = Order::find($transaction['data']['metadata']['order_id']);
+            $order->payment_ref = $transaction['data']['tx_ref'];
+            $order->save();
+
+            /** Clear cart content */
+            CartService::clear();
+
+            return true;
+        }
+
+        return false;
     }
 
     private function createOrder(array $info)

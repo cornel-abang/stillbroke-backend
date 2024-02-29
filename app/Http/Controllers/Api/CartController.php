@@ -19,7 +19,14 @@ class CartController extends Controller
 
     public function addItemToCart(AddToCartRequest $request): JsonResponse
     {
-       $this->cartService->addItem($request->all());
+       $response = $this->cartService->addItem($request->all());
+
+       if (! $response) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Item already exist in your cart'
+        ], 400);
+    }
 
         return response()->json([
             'success' => true,
@@ -38,7 +45,7 @@ class CartController extends Controller
 
         $cartItems = $this->cartService->getCart();
 
-        if ([] == $cartItems) {
+        if ([] === $cartItems) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unknown cart session'

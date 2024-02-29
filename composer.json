@@ -10,10 +10,10 @@
         "doctrine/dbal": "^3.8",
         "freshbitsweb/laravel-cart-manager": "*",
         "guzzlehttp/guzzle": "^7.2",
+        "kingflamez/laravelrave": "^4.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "stripe/stripe-php": "^13.11",
         "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {

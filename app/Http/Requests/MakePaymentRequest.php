@@ -13,7 +13,6 @@ class MakePaymentRequest extends BaseRequest
     {
         return [
             "amount" => "required|integer",
-            "stripeToken" => "required|string",
             "user_id" => "required|integer|exists:users,id",
             "cart_token" => "required|string",
             "shipping_address" => "required|string",
