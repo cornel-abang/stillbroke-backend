@@ -37,6 +37,13 @@ class CartController extends Controller
         }
 
         $cartItems = $this->cartService->getCart();
+
+        if ([] == $cartItems) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unknown cart session'
+            ], 404);
+        }
         
         if ([] == $cartItems['items']) {
             return response()->json([
