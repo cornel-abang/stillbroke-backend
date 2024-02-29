@@ -141,6 +141,11 @@ class AuthController extends Controller
         ], 200);
     }
 
+    public function resendVerifyLink()
+    {
+        $this->authService->resendVerificationLink();
+    }
+
     public function logout(): JsonResponse
     {
         $this->authService->logoutUser();

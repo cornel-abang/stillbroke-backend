@@ -117,6 +117,12 @@ class AuthService
         return true;
     }
 
+    public function resendVerificationLink()
+    {
+        /** Just trigger event again to send mail */
+        event(new ClientCreatedEvent(auth()->user()));
+    }
+
     public function logoutUser(): void
     {
         // Pass true to invalidate the token forever

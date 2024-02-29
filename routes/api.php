@@ -39,6 +39,7 @@ Route::group([
         Route::post('profile/{user_id}/update', [AuthController::class, 'updateClientProfile']);
         Route::post('/{user_id}/reset-password', [AuthController::class, 'resetUserPassword']);
         Route::get('current-user', [AuthController::class, 'getCurrentUser']);
+        Route::get('resend-verification', [AuthController::class, 'resendVerifyLink']);
         Route::get('logout', [AuthController::class, 'logout']);
     });
 });

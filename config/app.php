@@ -126,11 +126,11 @@ return [
 
     'cipher' => 'AES-256-CBC',
     
-    'frontend_verify_url' => env('FRONTEND_URL').'?code=%s&client=%d&email=%s',
+    'frontend_verify_url' => env('FRONTEND_URL').'/auth/email-verification?code=%s&client=%d&email=%s',
 
-    'frontend_pass_reset_url' => env('FRONTEND_PASS_RESET_URL'),
+    'frontend_pass_reset_url' => env('FRONTEND_URL').'/auth/reset--password',
 
-    'payment_confirmation' => env('FRONTEND_URL').'/payment/confirmm',
+    'payment_confirmation' => env('FRONTEND_URL').'/payment/confirm',
 
     /*
     |--------------------------------------------------------------------------
