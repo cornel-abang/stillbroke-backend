@@ -24,6 +24,11 @@ class CartService
     public function getCart(): array
     {
         $cartItems = $this->getRawItems();
+        
+        if (null === $cartItems) {
+            return [];
+        }
+
         $cart = cart()->toArray();
         $cart['items'] = $cartItems->toArray();
 
@@ -64,11 +69,15 @@ class CartService
             ]);
     }
 
-    private function getRawItems(): Collection
+    private function getRawItems(): ?Collection
     {
         $cart = DB::table('carts')
             ->where('auth_user', request()->cart_token)
             ->first();
+
+        if (! $cart) {
+            return null;
+        }
 
         return DB::table('cart_items')
             ->where('cart_id', $cart->id)
