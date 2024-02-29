@@ -100,12 +100,19 @@ class ProductController extends Controller
     public function saveProduct(int $id): JsonResponse
     {
         $saved = $this->prodService->saveProduct($id);
-
-        if (! $saved) {
+        
+        if (false === $saved) {
             return response()->json([
                 'success' => false,
                 'message' => 'Trying to save unknown item'
             ], 404);
+        }
+
+        if (null === $saved) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product already saved'
+            ], 400);
         }
 
         return response()->json([

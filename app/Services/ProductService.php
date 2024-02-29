@@ -52,12 +52,16 @@ class ProductService
         return Product::search($query)->get();
     }
 
-    public function saveProduct(int $id): bool
+    public function saveProduct(int $id): ?bool
     {
         $product = Product::find($id);
 
         if (! $product) {
             return false;
+        }
+
+        if ($this->prodAlreadySaved($id)) {
+            return null;
         }
 
         SavedProduct::create([
@@ -82,5 +86,12 @@ class ProductService
         }
 
         return $savedProduct->delete();
+    }
+
+    public function prodAlreadySaved(int $id): bool
+    {
+        return SavedProduct::where('product_id', $id)
+            ->where('user_id', auth()->user()->id)
+            ->exists();
     }
 }

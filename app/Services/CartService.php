@@ -106,7 +106,7 @@ class CartService
         return cart()->clear();
     }
 
-    private function itemExists(int $modelId)
+    private function itemExists(int $modelId): bool
     {
         $cart = DB::table('carts')
             ->where('auth_user', request()->cart_token)
