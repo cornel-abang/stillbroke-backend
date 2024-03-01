@@ -21,7 +21,7 @@ class AddProductRequest extends BaseRequest
             'avail_qty' => 'required|string',
             'other_images.*' => 'string',
             'colors.*' => 'required|string',
-            'sizes.*' => 'required|string',
+            'sizes.*' => 'string',
         ];
     }
 

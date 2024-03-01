@@ -21,9 +21,17 @@ class UploadProductImgJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->saveImages();
-        $this->saveColors();
-        $this->saveSizes();
+        if (null !== $this->data['other_images']) {
+            $this->saveImages();
+        }
+
+        if (null !== $this->data['colors']) {
+            $this->saveColors();
+        }
+
+        if (null !== $this->data['sizes']) {
+            $this->saveSizes();
+        }
     }
 
     private function saveImages(): void

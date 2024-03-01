@@ -21,9 +21,9 @@ class ProductService extends AppProductService
         
         dispatch(new UploadProductImgJob([
             'product_id' => $product->id, 
-            'other_images' => $details['other_images'],
-            'colors' => $details['colors'],
-            'sizes' => $details['sizes'],
+            'other_images' => $details['other_images'] ?? null,
+            'colors' => $details['colors'] ?? null,
+            'sizes' => $details['sizes'] ?? null,
         ]));
     }
     
