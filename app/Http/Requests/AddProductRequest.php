@@ -24,4 +24,12 @@ class AddProductRequest extends BaseRequest
             'sizes.*' => 'required|string',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'category_id.string' => 'The category ID is not a valid string',
+            'category_id.exists' => 'The category with the given ID does not exist',
+        ];
+    }
 }
