@@ -17,13 +17,13 @@ class PaymentController extends Controller
 
     public function processPayment(MakePaymentRequest $request): JsonResponse
     {
-        list($response, $message, $payUrl) = $this->paymentService->makePayment($request->validated());
+        list($response, $message, $paymentUrl) = $this->paymentService->makePayment($request->validated());
 
         if (! $response) {
             return $this->response(false, $message, 500);
         }
 
-        return $this->response(true, $message, 200, ['payment_url' => $payUrl]);
+        return $this->response(true, $message, 200, ['payment_url' => $paymentUrl]);
     }
 
     public function confirmPayment(ConfirmPaymentRequest $request)
