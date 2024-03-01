@@ -25,13 +25,13 @@ class PaymentService
                 "phone_number" => $info['shipping_phone'],
                 "name" => auth()->user()->name
             ],
-            "metadata" => [
+            "meta" => [
                 "order_id" => $order->id,
             ]
         ];
         
         $payment = Flutterwave::initializePayment($data);
-
+        
         if ($payment['status'] !== 'success') {
             return [false, 'Unable to initialize payment', null];
         }
@@ -45,7 +45,7 @@ class PaymentService
         $transaction = Flutterwave::verifyTransaction($transactionID);
 
         if ($transaction['status'] == 'success') {
-            $order = Order::find($transaction['data']['metadata']['order_id']);
+            $order = Order::find($transaction['data']['meta']['order_id']);
             $order->payment_ref = $transaction['data']['tx_ref'];
             $order->save();
 
