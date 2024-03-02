@@ -13,7 +13,7 @@ use App\Events\UserPasswordResetEvent;
 
 class AuthService
 {
-    public function registerUser(array $details): string|bool
+    public function registerUser(array $details): array|bool
     {
         $user = User::create($details);
         
