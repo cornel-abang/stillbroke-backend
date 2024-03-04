@@ -171,6 +171,17 @@ class ProductController extends Controller
         return $this->response(true, 'Product category successfully deleted', 200);
     }
 
+    public function getProductCategory(int $id)
+    {
+        $category = $this->prodService->getProductCategory($id);
+
+        if (! $category) {
+            return $this->response(false, 'Category not found', 404);
+        }
+
+        return $this->response(true, 'Category found', 200, ['category' => $category]);
+    }
+
     public function deleteProduct(int $id): JsonResponse
     {
         $response = $this->prodService->deleteProduct($id);

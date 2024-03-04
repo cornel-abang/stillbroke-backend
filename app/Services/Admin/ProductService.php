@@ -185,6 +185,11 @@ class ProductService extends AppProductService
         return true;
     }
 
+    public function getProductCategory(int $id): ?Category
+    {
+        return Category::find($id);
+    }
+
     public function featureProduct(array $data): bool
     {
         $product = Product::find($data['id']);

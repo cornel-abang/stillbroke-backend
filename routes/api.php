@@ -142,8 +142,6 @@ Route::group([
         Route::get('{id}', [AdminProductController::class, 'getAnyProduct']);
         Route::post('{id}/update', [AdminProductController::class, 'updateUproduct']);
         Route::delete('{id}/delete', [AdminProductController::class, 'deleteProduct']);
-        // Get all products
-        // fetch all cart items returning 500 error
         /**
          * Product Extras - Image, Color & Size 
         */
@@ -159,6 +157,7 @@ Route::group([
         Route::post('category/add', [AdminProductController::class, 'addProductCategory']);
         Route::post('category/{id}/update', [AdminProductController::class, 'updateProductCategory']);
         Route::get('categories/all', [AdminProductController::class, 'getProductCategories']);
+        Route::get('category/{id}', [AdminProductController::class, 'getProductCategory']);
         Route::delete('category/{id}/delete', [AdminProductController::class, 'deleteProductCategory']);
         /**
          * Featured Product 
