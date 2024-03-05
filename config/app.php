@@ -126,7 +126,7 @@ return [
 
     'cipher' => 'AES-256-CBC',
     
-    'frontend_verify_url' => env('FRONTEND_URL').'/auth/email-verification?code=%s&client=%d&email=%s',
+    'frontend_verify_url' => env('FRONTEND_URL').'/auth/verify-email?code=%s&client=%d&email=%s',
 
     'frontend_pass_reset_url' => env('FRONTEND_URL').'/auth/password/update',
 
