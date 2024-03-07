@@ -21,12 +21,19 @@ class CartController extends Controller
     {
        $response = $this->cartService->addItem($request->all());
 
-       if (! $response) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Item already exist in your cart'
-        ], 400);
-    }
+       if (false === $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Item already exist in your cart'
+            ], 400);
+        }
+
+        if (null === $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Requested quantity more than available quantity'
+            ], 400);
+        }
 
         return response()->json([
             'success' => true,

@@ -14,10 +14,14 @@ class CartService
         cart()->setUser(request()->cart_token);
     }
 
-    public function addItem(array $info): bool
+    public function addItem(array $info): ?bool
     {
         if ($this->itemExists($info['product_id'])) {
             return false;
+        }
+
+        if ($this->stockIsLow($info)) {
+            return null;
         }
 
         Product::addToCart($info['product_id'], $info['qty']);
@@ -37,7 +41,7 @@ class CartService
 
         $cart = cart()->toArray();
         $cart['items'] = $cartItems->toArray();
-
+        
         return $cart;
     }
 
@@ -103,7 +107,31 @@ class CartService
 
     public static function clear()
     {
+        cart()->setUser(request()->cart_token);
+
         return cart()->clear();
+    }
+
+    public static function updateCartItemsQty(): void
+    {
+        cart()->setUser(request()->cart_token);
+
+        $instance = new self();
+        $cart = $instance->getCart();
+        
+        foreach ($cart['items'] as $item) {
+            $product = Product::find($item->model_id);
+
+            $product->avail_qty = $product->avail_qty - $item->quantity;
+            $product->save();
+        }
+    }
+
+    public function stockIsLow(array $info): bool
+    {
+        $product = Product::find($info['product_id']);
+
+        return $product->avail_qty >= $info['qty'] ? false : true;
     }
 
     private function itemExists(int $modelId): bool

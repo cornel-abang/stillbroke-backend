@@ -15,6 +15,7 @@ class ConfirmPaymentRequest extends BaseRequest
             "status" => "required|string",
             "tx_ref" => "required|string",
             "transaction_id" => "required|string",
+            "cart_token" => "required|string",
         ];
     }
 }

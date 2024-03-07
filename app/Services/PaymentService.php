@@ -49,6 +49,9 @@ class PaymentService
             $order->payment_ref = $transaction['data']['tx_ref'];
             $order->save();
 
+            /** Update product qty */
+            CartService::updateCartItemsQty();
+
             /** Clear cart content */
             CartService::clear();
 
