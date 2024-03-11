@@ -89,6 +89,7 @@ Route::group([
 Route::group([
     'prefix' => 'cart',
 ], function () {
+    Route::post('set-token', [CartController::class, 'setCartToken']);
     Route::post('item/add', [CartController::class, 'addItemToCart']);
     Route::post('item/remove', [CartController::class, 'rmvItemFromCart']);
     Route::get('items/all', [CartController::class, 'getAllCartItems']);

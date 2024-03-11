@@ -9,12 +9,23 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\UpdateCartRequest;
 use App\Http\Requests\RmvFromCartRequest;
+use App\Http\Requests\SetCartTokenRequest;
 use App\Http\Requests\UpdateCartItemQtyRequest;
 
 class CartController extends Controller
 {
     public function __construct(private CartService $cartService)
     {
+    }
+
+    public function setCartToken(SetCartTokenRequest $request)
+    {
+        $this->cartService->setCartToken($request->cart_token);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cart token successfully set'
+        ], 200);
     }
 
     public function addItemToCart(AddToCartRequest $request): JsonResponse

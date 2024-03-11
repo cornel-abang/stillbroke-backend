@@ -14,6 +14,11 @@ class CartService
         cart()->setUser(request()->cart_token);
     }
 
+    public function setCartToken(): void
+    {
+        cart()->setUser(request()->cart_token);
+    }
+
     public function addItem(array $info): ?bool
     {
         if ($this->itemExists($info['product_id'])) {

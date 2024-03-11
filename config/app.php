@@ -130,7 +130,7 @@ return [
 
     'frontend_pass_reset_url' => env('FRONTEND_URL').'/auth/password/update',
 
-    'payment_confirmation' => env('FRONTEND_URL').'/payment/confirm',
+    'payment_confirmation' => env('FRONTEND_URL').'/payment-confirmation',
 
     /*
     |--------------------------------------------------------------------------

@@ -28,7 +28,7 @@ class PaymentController extends Controller
 
     public function confirmPayment(ConfirmPaymentRequest $request)
     {
-        if ($request->status !== 'success') {
+        if ($request->status !== 'successful') {
             return $this->response(false, 'Payment unsuccessful', 500);
         }
 

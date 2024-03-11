@@ -43,7 +43,7 @@ class PaymentService
     {
         $transactionID = Flutterwave::getTransactionIDFromCallback();
         $transaction = Flutterwave::verifyTransaction($transactionID);
-
+        
         if ($transaction['status'] == 'success') {
             $order = Order::find($transaction['data']['meta']['order_id']);
             $order->payment_ref = $transaction['data']['tx_ref'];
