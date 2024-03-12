@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
-use KingFlamez\Rave\Facades\Rave as Flutterwave;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderProduct;
+use KingFlamez\Rave\Facades\Rave as Flutterwave;
 
 class PaymentService
 {
@@ -14,16 +15,19 @@ class PaymentService
 
         $reference = Flutterwave::generateReference();
 
+        // temporal user
+        $user = User::find($info['user_id']);
+
         $data = [
             'amount' => $info['amount'],
-            'email' => auth()->user()->email,
+            'email' => $user->email,
             'tx_ref' => $reference,
             'currency' => "USD",
             'redirect_url' => config('app.payment_confirmation'),
             'customer' => [
-                'email' => auth()->user()->email,
+                'email' => $user->email,
                 "phone_number" => $info['shipping_phone'],
-                "name" => auth()->user()->name
+                "name" => $user->name
             ],
             "meta" => [
                 "order_id" => $order->id,

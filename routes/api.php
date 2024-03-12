@@ -56,6 +56,17 @@ Route::group([
         Route::get('all', [OrderController::class, 'getAllUserOrders']);
         Route::get('{id}', [OrderController::class, 'getOrder']);
     });
+    // /**
+    //  * Payment endpoints
+    //  */
+    // Route::group([
+    //     'prefix' => 'payment',
+    // ], function () {
+    //     Route::post('pay', [PaymentController::class, 'processPayment']);
+    //     Route::post('/confirm', [PaymentController::class, 'confirmPayment']);
+    // });
+});
+
     /**
      * Payment endpoints
      */
@@ -65,7 +76,6 @@ Route::group([
         Route::post('pay', [PaymentController::class, 'processPayment']);
         Route::post('/confirm', [PaymentController::class, 'confirmPayment']);
     });
-});
 
 /**
  * Product Endpoints
