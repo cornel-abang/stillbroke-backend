@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\User;
 use App\Events\AdminCreatedEvent;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserService
 {
@@ -32,6 +33,11 @@ class UserService
         $user->update($info);
 
         return $user;
+    }
+
+    public function fetchUsers(string $role): Collection
+    {
+        return User::where('role', $role)->get();
     }
 
     public function deleteUser(int $id): bool

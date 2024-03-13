@@ -51,11 +51,31 @@ class UserController extends Controller
                 'success' => false,
                 'message' => 'User not found or trying to update client account',
             ], 400);
-        }
+        } 
 
         return response()->json([
             'success' => true,
             'user' => $response,
+        ], 200);
+    }
+
+    public function getAdminUsers()
+    {
+        $users = $this->adminService->fetchUsers('admin');
+
+        return response()->json([
+            'success' => true,
+            'admins' => $users,
+        ], 200);
+    }
+
+    public function getClientUsers()
+    {
+        $users = $this->adminService->fetchUsers('client');
+
+        return response()->json([
+            'success' => true,
+            'clients' => $users,
         ], 200);
     }
 

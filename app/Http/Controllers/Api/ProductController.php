@@ -135,6 +135,21 @@ class ProductController extends Controller
         return new ProductsResource($savedProducts);
     }
 
+    public function getFeaturedProducts()
+    {
+        $featuredProducts = $this->prodService->fetchFeaturedProducts();
+
+        if($featuredProducts->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No featured products',
+                'featured' => []
+            ], 200);
+        }
+
+        return new ProductsResource($featuredProducts);
+    }
+
     public function deleteSavedProducts($id)
     {
         $response = $this->prodService->deleteSaved($id);

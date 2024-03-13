@@ -77,6 +77,11 @@ class ProductService
         return auth()->user()->savedProducts;
     }
 
+    public function fetchFeaturedProducts(): Collection
+    {
+        return Product::where('featured', true)->get();
+    }
+
     public function deleteSaved(int $id): bool
     {
         $savedProduct = SavedProduct::where('product_id', $id);

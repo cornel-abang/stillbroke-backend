@@ -82,6 +82,7 @@ Route::group([
  */
 Route::get('product/categories', [ProductController::class, 'getAllProductCategories']);
 Route::get('products/category/{category_id}', [ProductController::class, 'getProductsByCategory']);
+Route::get('products/featured', [ProductController::class, 'getFeaturedProducts']);
 Route::get('product/{id}', [ProductController::class, 'getProductById']);
 Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
 Route::get('products/search', [ProductController::class, 'searchProducts']);
@@ -141,6 +142,10 @@ Route::group([
         Route::post('/{id}/update', [UserController::class, 'updateUserDetails']);
         Route::get('/{id}/delete', [UserController::class, 'deleteUser']);
     });
+
+    // Get all users
+    Route::get('users', [UserController::class, 'getAdminUsers']);
+    Route::get('clients', [UserController::class, 'getClientUsers']);
 
     /**
      * Products endpoints
