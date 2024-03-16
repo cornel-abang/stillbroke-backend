@@ -127,7 +127,7 @@ class GeneralService
         return true;
     }
 
-    public function fetchMainVideo(): string
+    public function fetchMainVideo(): ?string
     {
         return Company::first()->video;
     }
