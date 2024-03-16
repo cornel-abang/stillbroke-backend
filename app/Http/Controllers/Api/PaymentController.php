@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MakePaymentRequest;
 use App\Http\Requests\ConfirmPaymentRequest;
+use App\Http\Requests\ConfirmPaystackPaymentRequest;
 
 class PaymentController extends Controller
 {
@@ -15,9 +16,9 @@ class PaymentController extends Controller
     {
     }
 
-    public function processPayment(MakePaymentRequest $request): JsonResponse
+    public function processPaymentFlutterwave(MakePaymentRequest $request): JsonResponse
     {
-        list($response, $message, $paymentUrl) = $this->paymentService->makePayment($request->validated());
+        list($response, $message, $paymentUrl) = $this->paymentService->makePaymentFlutterwave($request->validated());
 
         if (! $response) {
             return $this->response(false, $message, 500);
@@ -26,17 +27,24 @@ class PaymentController extends Controller
         return $this->response(true, $message, 200, ['payment_url' => $paymentUrl]);
     }
 
-    public function confirmPayment(ConfirmPaymentRequest $request)
+    public function confirmPaymentFlutterwave(ConfirmPaymentRequest $request)
     {
         if ($request->status !== 'successful') {
             return $this->response(false, 'Payment unsuccessful', 500);
         }
 
-        $response = $this->paymentService->makePaymentConfirmation();
+        $response = $this->paymentService->makePaymentConfirmationFlutterwave();
 
         if (! $response) {
             return $this->response(false, 'Payment unsuccessful', 500);
         }
+
+        return $this->response(true, 'Payment successful', 200);
+    }
+
+    public function confirmPaymentPaystack(ConfirmPaystackPaymentRequest $request)
+    {
+        $response = $this->paymentService->makePaymentConfirmationPaystack($request->validated());
 
         return $this->response(true, 'Payment successful', 200);
     }

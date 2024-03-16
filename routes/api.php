@@ -74,8 +74,9 @@ Route::group([
     Route::group([
         'prefix' => 'payment',
     ], function () {
-        Route::post('pay', [PaymentController::class, 'processPayment']);
-        Route::post('/confirm', [PaymentController::class, 'confirmPayment']);
+        Route::post('pay', [PaymentController::class, 'processPaymentFlutterwave']);
+        Route::post('/confirm', [PaymentController::class, 'confirmPaymentFlutterwave']);
+        Route::post('paystack/confirm', [PaymentController::class, 'confirmPaymentPaystack']);
     });
 
 /**

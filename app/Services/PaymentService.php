@@ -9,7 +9,7 @@ use KingFlamez\Rave\Facades\Rave as Flutterwave;
 
 class PaymentService
 {
-    public function makePayment(array $info): array
+    public function makePaymentFlutterwave(array $info): array
     {
         $order = $this->createOrder($info);
 
@@ -43,7 +43,7 @@ class PaymentService
         return [true, 'Payment successfully initialized', $payment['data']['link']];
     }
 
-    public function makePaymentConfirmation(): bool
+    public function makePaymentConfirmationFlutterwave(): bool
     {
         $transactionID = Flutterwave::getTransactionIDFromCallback();
         $transaction = Flutterwave::verifyTransaction($transactionID);
@@ -51,6 +51,7 @@ class PaymentService
         if ($transaction['status'] == 'success') {
             $order = Order::find($transaction['data']['meta']['order_id']);
             $order->payment_ref = $transaction['data']['tx_ref'];
+            $order->gateway = 'Flutterwave';
             $order->save();
 
             /** Update product qty */
@@ -63,6 +64,22 @@ class PaymentService
         }
 
         return false;
+    }
+
+    public function makePaymentConfirmationPaystack(array $info)
+    {
+        $order = $this->createOrder($info);
+        $order->payment_ref = $info['tx_ref'];
+        $order->gateway = 'Paystack';
+        $order->save();
+
+        /** Update product qty */
+        CartService::updateCartItemsQty();
+
+        /** Clear cart content */
+        CartService::clear();
+
+        return true;
     }
 
     private function createOrder(array $info)
