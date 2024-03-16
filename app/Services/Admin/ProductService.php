@@ -198,7 +198,7 @@ class ProductService extends AppProductService
             return false;
         }
 
-        return $product->makeFeatured($data['feature_text']);
+        return $product->makeFeatured();
     }
 
     public function unfeatureProduct(int $id): bool

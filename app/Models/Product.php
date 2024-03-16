@@ -80,10 +80,9 @@ class Product extends Model
         return $this->attributes['primary_image'];
     }
 
-    public function makeFeatured(string $feature_text ): bool
+    public function makeFeatured(): bool
     {
         $this->attributes['featured'] = true;
-        $this->attributes['feature_text'] = $feature_text;
 
         return $this->save();
     }

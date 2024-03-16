@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Admin\VlogController;
 use App\Http\Controllers\Api\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Api\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Api\Admin\ProductController as AdminProductController;
@@ -123,6 +124,15 @@ Route::group([
     Route::get('terms', [GeneralController::class, 'getTermsConditions']);
 });
 
+/**
+ * Vlog Endpoints
+ */
+Route::group([
+    'prefix' => 'vlog',
+], function () {
+    Route::get('all', [VlogController::class, 'getAllVlogItemsForFrontend']);
+});
+
 
 /**
  * Admin - CMS Endpoints
@@ -178,7 +188,7 @@ Route::group([
         /**
          * Featured Product 
         */
-        Route::post('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
+        Route::get('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
         Route::get('{id}/unfeature', [AdminProductController::class, 'unfeatureProduct']);
         Route::get('featured/all', [AdminProductController::class, 'getFeaturedProducts']);
         /**
@@ -209,6 +219,19 @@ Route::group([
         'prefix' => 'payment',
     ], function () {
         Route::get('all', [AdminPaymentController::class, 'getAllPayments']);
+    });
+
+    /**
+     * Vlog endpoints
+     */
+    Route::group([
+        'prefix' => 'vlog',
+    ], function () {
+        Route::get('all', [VlogController::class, 'getVlogItems']);
+        Route::post('create', [VlogController::class, 'createVlogItem']);
+        Route::get('{id}', [VlogController::class, 'getVlogItem']);
+        Route::post('{id}/edit', [VlogController::class, 'updateVlogItem']);
+        Route::delete('{id}/delete', [VlogController::class, 'deleteVlogItem']);
     });
 
     /**

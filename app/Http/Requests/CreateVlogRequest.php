@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class MakeProductFeaturedRequest extends BaseRequest
+class CreateVlogRequest extends BaseRequest
 {
     public function authorize(): bool
     {
@@ -11,6 +11,9 @@ class MakeProductFeaturedRequest extends BaseRequest
 
     public function rules(): array
     {
-        return ['feature_text' => 'string'];
+        return [
+            'title' => 'required|string',
+            'video_url' => 'required|string'
+        ];
     }
 }
