@@ -37,6 +37,13 @@ class ProductService extends AppProductService
 
         $product->update($request->validated());
 
+        dispatch(new UploadProductImgJob([
+            'product_id' => $product->id, 
+            'other_images' => $request->other_images ?? null,
+            'colors' => $request->colors ?? null,
+            'sizes' => $request->sizes ?? null,
+        ]));
+
         return true;
     }
 
