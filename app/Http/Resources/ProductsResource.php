@@ -12,15 +12,24 @@ class ProductsResource extends JsonResource
         $products = $this->map(function ($product) {
 
             $images = $product->images->map(function ($image) {
-                return $image->url;
+                return [
+                    'id' => $image->id,
+                    'url' => $image->url
+                ];
             });
 
             $colors = $product->colors->map(function ($color) {
-                return $color->color_code;
+                return [
+                    'id' => $color->id,
+                    'code' => $color->color_code
+                ];
             });
 
             $sizes = $product->sizes->map(function ($size) {
-                return $size->size_code;
+                return [
+                    'id' => $size->id,
+                    'code' => $size->size_code
+                ];
             });
 
             return [
