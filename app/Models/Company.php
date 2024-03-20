@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $terms
  * @property string $privacy
  * @property string $video
+ * @property string $featured_txt
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
  */

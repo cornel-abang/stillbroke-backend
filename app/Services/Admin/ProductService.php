@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Company;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\ProductSize;
@@ -9,9 +10,9 @@ use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Jobs\UploadProductImgJob;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\UpdateProductCatRequest;
 use App\Services\ProductService as AppProductService;
-use Illuminate\Database\Eloquent\Collection;
 
 class ProductService extends AppProductService
 {
@@ -235,6 +236,20 @@ class ProductService extends AppProductService
         $product->discount($info['percentage'], $info['duration']);
 
         return true;
+    }
+
+    public function setFeaturedTxt(string $featured_txt): string
+    {
+        $company = Company::first();
+        $company->featured_txt = $featured_txt;
+        $company->save();
+
+        return $company->featured_txt;
+    }
+
+    public function getFeaturedTxt(): ?string
+    {
+        return Company::first()?->featured_txt;
     }
 
     public function getDiscount(int $id)

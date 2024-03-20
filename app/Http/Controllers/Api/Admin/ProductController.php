@@ -14,6 +14,7 @@ use App\Http\Requests\AddProdColorRequest;
 use App\Http\Requests\AddProdImageRequest;
 use App\Http\Requests\AddProductCatRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Http\Requests\SetFeatureTextRequest;
 use App\Http\Requests\AddProdDiscountRequest;
 use App\Http\Requests\UpdateProductCatRequest;
 use App\Http\Requests\UpdateProdDiscountRequest;
@@ -222,6 +223,26 @@ class ProductController extends Controller
         return $this->response(
             true, 'Featured products found', 200, 
             ['featured_products' => $featuredProds]
+        );
+    }
+
+    public function getFeaturedProductsText()
+    {
+        $featuredTxt = $this->prodService->getFeaturedTxt();
+        
+        return $this->response(
+            true, 'Featured text found', 
+            200, ['featuredTxt' => $featuredTxt]
+        );
+    }
+
+    public function setFeaturedProductsText(SetFeatureTextRequest $request)
+    {
+        $featuredTxt = $this->prodService->setFeaturedTxt($request->featured_txt);
+
+        return $this->response(
+            true, 'Featured text successfully updated', 
+            200, ['featuredTxt' => $featuredTxt]
         );
     }
 

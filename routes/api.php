@@ -192,6 +192,8 @@ Route::group([
         Route::get('{id}/feature', [AdminProductController::class, 'makeProductFeatured']);
         Route::get('{id}/unfeature', [AdminProductController::class, 'unfeatureProduct']);
         Route::get('featured/all', [AdminProductController::class, 'getFeaturedProducts']);
+        Route::get('featured/text', [AdminProductController::class, 'getFeaturedProductsText']);
+        Route::post('featured/text', [AdminProductController::class, 'setFeaturedProductsText']);
         /**
          * Discount endpoints
          */
