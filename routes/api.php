@@ -57,15 +57,6 @@ Route::group([
         Route::get('all', [OrderController::class, 'getAllUserOrders']);
         Route::get('{id}', [OrderController::class, 'getOrder']);
     });
-    // /**
-    //  * Payment endpoints
-    //  */
-    // Route::group([
-    //     'prefix' => 'payment',
-    // ], function () {
-    //     Route::post('pay', [PaymentController::class, 'processPayment']);
-    //     Route::post('/confirm', [PaymentController::class, 'confirmPayment']);
-    // });
 });
 
     /**
@@ -170,14 +161,14 @@ Route::group([
         Route::post('{id}/update', [AdminProductController::class, 'updateUproduct']);
         Route::delete('{id}/delete', [AdminProductController::class, 'deleteProduct']);
         /**
-         * Product Extras - Image, Color & Size 
+         * Product Extras 
         */
-        Route::post('{id}/image/add', [AdminProductController::class, 'addProductImage']);
-        Route::get('image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
-        Route::post('{id}/color/add', [AdminProductController::class, 'addProductColor']);
-        Route::get('color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
-        Route::post('{id}/size/add', [AdminProductController::class, 'addProductSize']);
-        Route::get('size/{size_id}/remove', [AdminProductController::class, 'rmvProductSize']);
+        Route::get('extra/{id}/remove', [AdminProductController::class, 'removeProductExtra']);
+        // Route::get('image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
+        // Route::post('{id}/color/add', [AdminProductController::class, 'addProductColor']);
+        // Route::get('color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
+        // Route::post('{id}/size/add', [AdminProductController::class, 'addProductSize']);
+        // Route::get('size/{size_id}/remove', [AdminProductController::class, 'rmvProductSize']);
         /**
          * Product Category  
         */

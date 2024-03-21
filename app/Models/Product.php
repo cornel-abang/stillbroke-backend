@@ -46,7 +46,7 @@ class Product extends Model
         'avail_qty'
     ];
 
-    protected $with = ['images', 'colors', 'sizes'];
+    protected $with = ['images', 'extras'];
 
     protected $hidden = ['pivot']; 
 
@@ -68,6 +68,11 @@ class Product extends Model
     public function colors(): HasMany
     {
         return $this->hasMany(ProductColor::class);
+    }
+
+    public function extras(): HasMany
+    {
+        return $this->hasMany(Extra::class);
     }
 
     public function getName()

@@ -18,22 +18,19 @@ class ProductsResource extends JsonResource
                 ];
             });
 
-            $colors = $product->colors->map(function ($color) {
-                return [
-                    'id' => $color->id,
-                    'code' => $color->color_code
-                ];
-            });
-
-            $sizes = $product->sizes->map(function ($size) {
-                return [
-                    'id' => $size->id,
-                    'code' => $size->size_code
-                ];
+            $extras = $product->extras->map(function ($extra) {
+                $data = [];
+    
+                $data['id'] = $extra->id;
+                $data['name'] = $extra->name;
+                $data['value'] = $extra->value;
+    
+                return $data;
             });
 
             return [
                 'id' => $product->id,
+                'category_id' => $product->category_id,
                 'title' => $product->title,
                 'price' => $product->price,
                 'primary_image' => $product->primary_image,
@@ -45,8 +42,7 @@ class ProductsResource extends JsonResource
                 'duration' => $product->duration,
                 'percentage' => $product->percentage,
                 'images' => $images,
-                'colors' => $colors,
-                'sizes' => $sizes,
+                'extras' => collect($extras)->groupBy('name')
             ];
 
         })->all();

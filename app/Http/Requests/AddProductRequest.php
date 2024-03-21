@@ -20,16 +20,7 @@ class AddProductRequest extends BaseRequest
             'primary_image' => 'required|string',
             'avail_qty' => 'required|string',
             'other_images.*' => 'string',
-            'colors.*' => 'required|string',
-            'sizes.*' => 'string',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'category_id.string' => 'The category ID is not a valid string',
-            'category_id.exists' => 'The category with the given ID does not exist',
+            'extras' => 'required|array',
         ];
     }
 }

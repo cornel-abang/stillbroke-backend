@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Extra;
 use App\Models\ProductSize;
 use App\Models\ProductColor;
 use App\Models\ProductImage;
@@ -25,12 +26,8 @@ class UploadProductImgJob implements ShouldQueue
             $this->saveImages();
         }
 
-        if (null !== $this->data['colors']) {
-            $this->saveColors();
-        }
-
-        if (null !== $this->data['sizes']) {
-            $this->saveSizes();
+        if (null !== $this->data['extras']) {
+            $this->saveExtras();
         }
     }
 
@@ -45,25 +42,16 @@ class UploadProductImgJob implements ShouldQueue
         }
     }
 
-    private function saveColors(): void
+    private function saveExtras(): void
     {
-        foreach ($this->data['colors'] as $color) {
-            
-            ProductColor::create([
-                'product_id' => $this->data['product_id'],
-                'color_code' => $color
-            ]);
-        }
-    }
-
-    private function saveSizes(): void
-    {
-        foreach ($this->data['sizes'] as $size) {
-            
-            ProductSize::create([
-                'product_id' => $this->data['product_id'],
-                'size_code' => $size
-            ]);
+        foreach ($this->data['extras'] as $name => $values) {
+            foreach ($values as $value) {
+                Extra::create([
+                    'product_id' => $this->data['product_id'],
+                    'name' => $name,
+                    'value' => $value
+                ]);
+            }
         }
     }
 }

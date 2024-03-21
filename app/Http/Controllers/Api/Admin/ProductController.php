@@ -62,70 +62,15 @@ class ProductController extends Controller
         return new ProductsResource($products);
     }
 
-    public function rmvProductImage(int $img_id): JsonResponse
+    public function removeProductExtra(int $id): JsonResponse
     {
-        $response = $this->prodService->removeProductImg($img_id);
+        $response = $this->prodService->removeProductExtra($id);
 
         if (! $response) {
-            return $this->response(false, 'Product or File does not exist', 404);
+            return $this->response(false, 'Product extra does not exist', 404);
         }
 
-        return $this->response(true, 'Product image successfully removed', 200);
-    }
-
-    public function addProductImage(int $id, AddProdImageRequest $request): JsonResponse
-    {
-        $response = $this->prodService->addProductImg($id, $request->other_images);
-
-        if (! $response) {
-            return $this->response(false, 'Product does not exist', 404);
-        }
-
-        return $this->response(true, 'Product image successfully added', 200);
-    }
-
-    public function addProductColor(int $id, AddProdColorRequest $request): JsonResponse
-    {
-        $response = $this->prodService->addProductColor($id, $request->colors);
-
-        if (! $response) {
-            return $this->response(false, 'Product does not exist', 404);
-        }
-
-        return $this->response(true, 'Product color successfully added', 200);
-    }
-
-    public function rmvProductColor(int $color_id): JsonResponse
-    {
-        $response = $this->prodService->removeProductColor($color_id);
-
-        if (! $response) {
-            return $this->response(false, 'Product does not exist', 404);
-        }
-
-        return $this->response(true, 'Product color successfully removed', 200);
-    }
-
-    public function addProductSize(int $id, AddProdSizeRequest $request): JsonResponse
-    {
-        $response = $this->prodService->addProductSize($id, $request->sizes);
-
-        if (! $response) {
-            return $this->response(false, 'Product not found', 404);
-        }
-
-        return $this->response(true, 'Product size successfully added', 200);
-    }
-
-    public function rmvProductSize(int $size_id): JsonResponse
-    {
-        $response = $this->prodService->removeProductSize($size_id);
-
-        if (! $response) {
-            return $this->response(false, 'Product does not exist', 404);
-        }
-
-        return $this->response(true, 'Product size successfully removed', 200);
+        return $this->response(true, 'Product extra successfully removed', 200);
     }
 
     public function addProductCategory(AddProductCatRequest $request): JsonResponse

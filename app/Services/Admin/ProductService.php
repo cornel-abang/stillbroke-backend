@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Extra;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Category;
@@ -19,13 +20,20 @@ class ProductService extends AppProductService
     public function addProduct(array $details): void
     {
         $product = Product::create($details);
+
+        if (null !== $details['other_images']) {
+            $this->saveImages($details['other_images'], $product->id);
+        }
+
+        if (null !== $details['extras']) {
+            $this->saveExtras($details['extras'], $product->id);
+        }
         
-        dispatch(new UploadProductImgJob([
-            'product_id' => $product->id, 
-            'other_images' => $details['other_images'] ?? null,
-            'colors' => $details['colors'] ?? null,
-            'sizes' => $details['sizes'] ?? null,
-        ]));
+        // dispatch(new UploadProductImgJob([
+        //     'product_id' => $product->id, 
+        //     'other_images' => $details['other_images'] ?? null,
+        //     'extras' => $details['extras'] ?? null,
+        // ]));
     }
     
     public function updateProductDetails(int $id, UpdateProductRequest $request): bool
@@ -38,12 +46,13 @@ class ProductService extends AppProductService
 
         $product->update($request->validated());
 
-        dispatch(new UploadProductImgJob([
-            'product_id' => $product->id, 
-            'other_images' => $request->other_images ?? null,
-            'colors' => $request->colors ?? null,
-            'sizes' => $request->sizes ?? null,
-        ]));
+        if (null !== $request->other_images) {
+            $this->saveImages($request->other_images, $product->id);
+        }
+
+        if (null !== $request->extras) {
+            $this->saveExtras($request->extras, $product->id);
+        }
 
         return true;
     }
@@ -53,97 +62,17 @@ class ProductService extends AppProductService
         return Product::all();
     }
 
-    public function removeProductImg($img_id): bool
+    public function removeProductExtra($id): bool
     {
-        $image = ProductImage::find($img_id);
+        $extra = Extra::find($id);
 
-        if (! $image) {
+        if (! $extra) {
             return false;
         }
         
-        return $image->delete();
+        return $extra->delete();
     }
 
-    public function addProductImg(int $id, array $other_images): bool
-    {
-        $product = Product::find($id);
-
-        if (! $product) {
-            return false;
-        }
-
-        foreach ($other_images as $image) {
-            ProductImage::create([
-                'product_id' => $id,
-                'url' => $image
-            ]);
-        }
-
-        return true;
-    }
-
-    public function addProductColor(int $id, array $colors): bool
-    {
-        $product = Product::find($id);
-
-        if (! $product) {
-            return false;
-        }
-
-        foreach ($colors as $color) {
-            ProductColor::create([
-                'product_id' => $id,
-                'color_code' => $color
-            ]);
-        }
-
-        return true;
-    }
-
-    public function removeProductColor(int $color_id): bool
-    {
-        $color = ProductColor::find($color_id);
-
-        if (! $color) {
-            return false;
-        }
-
-        $color->delete();
-
-        return true;
-    }
-
-    public function addProductSize(int $id, array $sizes)
-    {
-        $product = Product::find($id);
-
-        if (! $product) {
-            return false;
-        }
-
-        foreach ($sizes as $size) {
-            ProductSize::create([
-                'product_id' => $id,
-                'size_code' => $size
-            ]);
-        }
-
-        return true;
-    }
-
-    public function removeProductSize(int $size_id): bool
-    {
-        $size = ProductSize::find($size_id);
-
-        if (! $size) {
-            return false;
-        }
-
-        $size->delete();
-
-        return true;
-    }
-    
     public function addProductCategory(array $details): bool
     {
         Category::create([
@@ -283,5 +212,29 @@ class ProductService extends AppProductService
         }
 
         return $product->removeDiscount();
+    }
+
+    private function saveImages(array $other_images, int $product_id): void
+    {
+        foreach ($other_images as $image) {
+            
+            ProductImage::create([
+                'product_id' => $product_id,
+                'url' => $image
+            ]);
+        }
+    }
+
+    private function saveExtras(array $extras, int $product_id): void
+    {
+        foreach ($extras as $extra) {
+            foreach ($extra as $name => $value) {
+                Extra::create([
+                    'product_id' => $product_id,
+                    'name' => $name,
+                    'value' => $value
+                ]);
+            }
+        }
     }
 }
