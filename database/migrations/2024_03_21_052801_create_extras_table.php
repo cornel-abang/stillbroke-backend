@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Models\Product;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -10,14 +11,10 @@ return new class extends Migration
     {
         Schema::create('extras', function (Blueprint $table) {
             $table->id();
-            $table->foreign('product_id');
+            $table->foreignIdFor(Product::class)->constrained()->onDelete('cascade');
             $table->string('name');
             $table->string('value');
             $table->timestamps();
-            $table->foreign('product_id')
-                ->references('id')->on('products')
-                ->onUpdate('no action')
-                ->onDelete('cascade');
         });
     }
 
