@@ -6,10 +6,9 @@ use App\Models\Extra;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\ProductSize;
-use App\Models\ProductColor;
 use App\Models\ProductImage;
 use App\Jobs\UploadProductImgJob;
+use App\Http\Requests\AddProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\UpdateProductCatRequest;
@@ -17,16 +16,16 @@ use App\Services\ProductService as AppProductService;
 
 class ProductService extends AppProductService
 {
-    public function addProduct(array $details): void
+    public function addProduct(AddProductRequest $request): void
     {
-        $product = Product::create($details);
-
-        if (null !== $details['other_images']) {
-            $this->saveImages($details['other_images'], $product->id);
+        $product = Product::create($request->validated());
+       
+        if (null !== $request->other_images || [] !== $request->other_images) {
+            $this->saveImages($request->other_images, $product->id);
         }
 
-        if (null !== $details['extras']) {
-            $this->saveExtras($details['extras'], $product->id);
+        if (null !== $request->extras || [] !== $request->extra) {
+            $this->saveExtras($request->extras, $product->id);
         }
         
         // dispatch(new UploadProductImgJob([
@@ -46,11 +45,11 @@ class ProductService extends AppProductService
 
         $product->update($request->validated());
 
-        if (null !== $request->other_images) {
+        if (null !== $request->other_images || [] !== $request->other_images) {
             $this->saveImages($request->other_images, $product->id);
         }
 
-        if (null !== $request->extras) {
+        if (null !== $request->extras || [] !== $request->extras) {
             $this->saveExtras($request->extras, $product->id);
         }
 

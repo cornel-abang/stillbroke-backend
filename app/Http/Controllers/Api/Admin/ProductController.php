@@ -9,16 +9,12 @@ use App\Services\Admin\ProductService;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\AddProductRequest;
 use App\Http\Resources\ProductsResource;
-use App\Http\Requests\AddProdSizeRequest;
-use App\Http\Requests\AddProdColorRequest;
-use App\Http\Requests\AddProdImageRequest;
 use App\Http\Requests\AddProductCatRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Requests\SetFeatureTextRequest;
 use App\Http\Requests\AddProdDiscountRequest;
 use App\Http\Requests\UpdateProductCatRequest;
 use App\Http\Requests\UpdateProdDiscountRequest;
-use App\Http\Requests\MakeProductFeaturedRequest;
 
 class ProductController extends Controller
 {
@@ -28,7 +24,7 @@ class ProductController extends Controller
 
     public function addProduct(AddProductRequest $request): JsonResponse
     {
-        $this->prodService->addProduct($request->validated());
+        $this->prodService->addProduct($request);
 
         return $this->response(true, 'Product added successfully', 200);
     }
