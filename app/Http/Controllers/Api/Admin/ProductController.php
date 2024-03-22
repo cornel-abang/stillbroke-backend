@@ -29,7 +29,7 @@ class ProductController extends Controller
         return $this->response(true, 'Product added successfully', 200);
     }
 
-    public function getAnyProduct(int $id): ProductResource
+    public function getAnyProduct(int $id): ProductResource | JsonResponse
     {
         $product = $this->prodService->fetchProductById($id);
 

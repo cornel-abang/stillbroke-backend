@@ -26,7 +26,7 @@ class ProductsResource extends JsonResource
                 $data['value'] = $extra->value;
     
                 return $data;
-            });
+            })->groupBy('name')->toArray();
 
             return [
                 'id' => $product->id,
@@ -42,7 +42,7 @@ class ProductsResource extends JsonResource
                 'duration' => $product->duration,
                 'percentage' => $product->percentage,
                 'images' => $images,
-                'extras' => collect($extras)->groupBy('name')
+                'extras' => $extras
             ];
 
         })->all();

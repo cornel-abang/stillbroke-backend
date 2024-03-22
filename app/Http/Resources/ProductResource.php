@@ -24,8 +24,8 @@ class ProductResource extends JsonResource
             $data['value'] = $extra->value;
 
             return $data;
-        });
-
+        })->groupBy('name')->toArray();
+        
         return [
             'id' => $this->id,
             'category_id' => $this->category_id,
@@ -40,7 +40,7 @@ class ProductResource extends JsonResource
             'duration' => $this->duration,
             'percentage' => $this->percentage,
             'images' => $images,
-            'extras' => collect($extras)->groupBy('name')
+            'extras' => $extras
         ];
     }
 }
