@@ -13,8 +13,7 @@ class UpdateCartRequest extends BaseRequest
     {
         return [
             'quantity' => 'string',
-            'size' => 'string',
-            'color' => 'string',
+            'extra_id' => 'nullable|exists:extras,id',
             'cart_token' => 'required|string',
             'product_id' => 'required|integer|exists:products,id',
         ];

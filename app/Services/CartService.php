@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Extra;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -78,10 +79,7 @@ class CartService
     {
         DB::table('cart_items')
             ->where('model_id', $fields['product_id'])
-            ->update([
-                'size' => $fields['size'] ?? null,
-                'color' => $fields['color'] ?? null
-            ]);
+            ->update(['extra_id' => $fields['extra_id']]);
     }
 
     private function getRawItems(): ?Collection
@@ -110,25 +108,20 @@ class CartService
         return $this->getCart();
     }
 
-    public static function clear()
-    {
-        cart()->setUser(request()->cart_token);
-
-        return cart()->clear();
-    }
-
     public static function updateCartItemsQty(): void
     {
         cart()->setUser(request()->cart_token);
 
         $instance = new self();
         $cart = $instance->getCart();
-        
+
         foreach ($cart['items'] as $item) {
             $product = Product::find($item->model_id);
 
             $product->avail_qty = $product->avail_qty - $item->quantity;
             $product->save();
+
+            $instance->updateProductExtras($product->id);
         }
     }
 
@@ -153,5 +146,23 @@ class CartService
             ->where('model_id', $modelId)
             ->where('cart_id', $cart->id)
             ->exists();
+    }
+
+    public function updateProductExtras(int $id)
+    {
+        $cart = DB::table('cart_items')
+            ->where('model_id', $id)
+            ->first();
+
+        $extra = Extra::find($cart->extra_id);
+
+        $extra->delete();
+    }
+
+    public static function clear()
+    {
+        cart()->setUser(request()->cart_token);
+
+        return cart()->clear();
     }
 }
