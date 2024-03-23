@@ -227,12 +227,14 @@ class ProductService extends AppProductService
     private function saveExtras(array $extras, int $product_id): void
     {
         foreach ($extras as $extra) {
-            foreach ($extra as $name => $value) {
-                Extra::create([
-                    'product_id' => $product_id,
-                    'name' => $name,
-                    'value' => $value
-                ]);
+            foreach ($extra as $name => $values) {
+                foreach ($values as $value) {
+                    Extra::create([
+                        'product_id' => $product_id,
+                        'name' => $name,
+                        'value' => $value
+                    ]);
+                }
             }
         }
     }
