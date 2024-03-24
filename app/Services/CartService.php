@@ -32,7 +32,9 @@ class CartService
 
         Product::addToCart($info['product_id'], $info['qty']);
 
-        self::addExtraFieldsToCart($info);
+        if (isset($info['extra_id'])) {
+            self::addExtraFieldsToCart($info);
+        }
 
         return true;
     }
@@ -108,7 +110,8 @@ class CartService
         return $this->getCart();
     }
 
-    public static function updateCartItemsQty(): void
+    /** Update product qty and remove extras */
+    public static function updateCartItemsStock(): void
     {
         cart()->setUser(request()->cart_token);
 
@@ -159,6 +162,7 @@ class CartService
         $extra->delete();
     }
 
+    /** Clear cart entire content */
     public static function clear()
     {
         cart()->setUser(request()->cart_token);

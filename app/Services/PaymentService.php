@@ -54,10 +54,8 @@ class PaymentService
             $order->gateway = 'Flutterwave';
             $order->save();
 
-            /** Update product qty */
-            CartService::updateCartItemsQty();
+            CartService::updateCartItemsStock();
 
-            /** Clear cart content */
             CartService::clear();
 
             return true;
@@ -66,20 +64,16 @@ class PaymentService
         return false;
     }
 
-    public function makePaymentConfirmationPaystack(array $info)
+    public function makePaymentConfirmationPaystack(array $info): void
     {
         $order = $this->createOrder($info);
         $order->payment_ref = $info['tx_ref'];
         $order->gateway = 'Paystack';
         $order->save();
 
-        /** Update product qty */
-        CartService::updateCartItemsQty();
+        CartService::updateCartItemsStock();
 
-        /** Clear cart content */
         CartService::clear();
-
-        return true;
     }
 
     private function createOrder(array $info)
