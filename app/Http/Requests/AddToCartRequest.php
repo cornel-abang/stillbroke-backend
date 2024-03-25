@@ -15,7 +15,7 @@ class AddToCartRequest extends BaseRequest
             'product_id' => 'required|integer|exists:products,id',
             'qty' => 'required|integer|min:1',
             'cart_token' => 'required|string',
-            'extra_id' => 'nullable|exists:extras,id'
+            'extras' => 'nullable|array'
         ];
     }
 }

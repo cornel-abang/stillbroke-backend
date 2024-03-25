@@ -31,9 +31,10 @@ class CartService
         }
 
         Product::addToCart($info['product_id'], $info['qty']);
-
-        if (isset($info['extra_id'])) {
-            self::addExtraFieldsToCart($info);
+        
+        if (isset($info['extras'])) {
+            $extras = implode(",", $info['extras']);
+            self::addExtraFieldsToCart($extras, $info['product_id']);
         }
 
         return true;
@@ -48,8 +49,9 @@ class CartService
         }
 
         $cart = cart()->toArray();
-        $cart['items'] = $cartItems->toArray();
-        
+
+        $cart['items'] = $cartItems;
+
         return $cart;
     }
 
@@ -77,11 +79,11 @@ class CartService
         return true;
     }
 
-    public static function addExtraFieldsToCart(array $fields): void
+    public static function addExtraFieldsToCart(string $extras, $product_id): void
     {
         DB::table('cart_items')
-            ->where('model_id', $fields['product_id'])
-            ->update(['extra_id' => $fields['extra_id']]);
+            ->where('model_id', $product_id)
+            ->update(['extra_ids' => $extras]);
     }
 
     private function getRawItems(): ?Collection
@@ -96,7 +98,11 @@ class CartService
 
         return DB::table('cart_items')
             ->where('cart_id', $cart->id)
-            ->get();
+            ->get()
+            ->map(function ($item) {
+                $item->extra_ids = explode(",", $item->extra_ids);
+                return $item;
+            });;
     }
 
     public function updateCart(array $data): array
@@ -106,6 +112,11 @@ class CartService
         DB::table('cart_items')
             ->where('model_id', $data['product_id'])
             ->update($updateData);
+
+        if (isset($info['extras'])) {
+            $extras = implode(",", $info['extras']);
+            self::addExtraFieldsToCart($extras, $info['product_id']);
+        }
 
         return $this->getCart();
     }
