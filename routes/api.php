@@ -164,7 +164,7 @@ Route::group([
          * Product Extras 
         */
         Route::get('extra/{id}/remove', [AdminProductController::class, 'removeProductExtra']);
-        // Route::get('image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
+        Route::get('image/{img_id}/remove', [AdminProductController::class, 'rmvProductImage']);
         // Route::post('{id}/color/add', [AdminProductController::class, 'addProductColor']);
         // Route::get('color/{color_id}/remove', [AdminProductController::class, 'rmvProductColor']);
         // Route::post('{id}/size/add', [AdminProductController::class, 'addProductSize']);

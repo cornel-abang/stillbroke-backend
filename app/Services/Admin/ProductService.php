@@ -20,12 +20,16 @@ class ProductService extends AppProductService
     {
         $product = Product::create($request->validated());
        
-        if (null !== $request->other_images || [] !== $request->other_images) {
-            $this->saveImages($request->other_images, $product->id);
+        if ($request->filled('other_images')) {
+            if ($request->other_images != []) {
+                $this->saveImages($request->other_images, $product->id);
+            }
         }
 
-        if (null !== $request->extras || [] !== $request->extra) {
-            $this->saveExtras($request->extras, $product->id);
+        if ($request->filled('extras')) {
+            if ($request->extras != []) {
+                $this->saveExtras($request->extras, $product->id);
+            }
         }
         
         // dispatch(new UploadProductImgJob([
@@ -45,12 +49,16 @@ class ProductService extends AppProductService
 
         $product->update($request->validated());
 
-        if (null !== $request->other_images || [] !== $request->other_images) {
-            $this->saveImages($request->other_images, $product->id);
+        if ($request->filled('other_images')) {
+            if ($request->other_images != []) {
+                $this->saveImages($request->other_images, $product->id);
+            }
         }
 
-        if (null !== $request->extras || [] !== $request->extras) {
-            $this->saveExtras($request->extras, $product->id);
+        if ($request->filled('extras')) {
+            if ($request->extras != []) {
+                $this->saveExtras($request->extras, $product->id);
+            }
         }
 
         return true;
@@ -59,6 +67,17 @@ class ProductService extends AppProductService
     public function fetchAllProducts(): Collection
     {
         return Product::all();
+    }
+    
+    public function removeProductImg(int $img_id): bool
+    {
+        $img = ProductImage::find($img_id);
+
+        if (! $img) {
+            return false;
+        }
+        
+        return $img->delete();
     }
 
     public function removeProductExtra($id): bool

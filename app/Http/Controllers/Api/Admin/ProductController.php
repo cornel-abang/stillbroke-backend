@@ -58,6 +58,17 @@ class ProductController extends Controller
         return new ProductsResource($products);
     }
 
+    public function rmvProductImage(int $img_id)
+    {
+        $response = $this->prodService->removeProductImg($img_id);
+
+        if (! $response) {
+            return $this->response(false, 'Product image does not exist', 404);
+        }
+
+        return $this->response(true, 'Product image successfully removed', 200);
+    }
+
     public function removeProductExtra(int $id): JsonResponse
     {
         $response = $this->prodService->removeProductExtra($id);
