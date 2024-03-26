@@ -14,7 +14,7 @@ class UpdateCartItemQtyRequest extends BaseRequest
         return [
             'product_id' => 'required|integer|exists:products,id',
             'cart_token' => 'required|string',
-            'qty' => 'nullable|integer'
+            'qty' => 'required|integer'
         ];
     }
 
