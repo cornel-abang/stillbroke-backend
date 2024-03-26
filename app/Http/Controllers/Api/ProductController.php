@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\FilterRequest;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\ProductsResource;
+use App\Http\Requests\RemoveExtraRequest;
 
 class ProductController extends Controller
 {
@@ -167,9 +168,9 @@ class ProductController extends Controller
         ], 201);
     }
 
-    public function removeProductExtra(int $extra_id)
+    public function removeProductExtra(RemoveExtraRequest $request)
     {
-        $response = $this->prodService->removeExtra($extra_id);
+        $response = $this->prodService->removeExtra($request->validated());
 
         if (! $response) {
             return response()->json([

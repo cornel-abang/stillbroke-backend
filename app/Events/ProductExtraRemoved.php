@@ -10,7 +10,7 @@ class ProductExtraRemoved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public function __construct(public int $extra_id, public int $prod_id)
+    public function __construct(public array $data)
     {
     }
 }

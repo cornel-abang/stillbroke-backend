@@ -103,20 +103,16 @@ class ProductService
             ->exists();
     }
 
-    public function removeExtra(int $extra_id): bool
+    public function removeExtra(array $data): bool
     {
-        $extra = Extra::find($extra_id);
+        $extra = Extra::find($data['extra_id']);
 
         if (! $extra) {
             return false;
         }
 
-        $response = AdminProductService::removeProductExtra($extra_id);
+        event(new ProductExtraRemoved($data));
 
-        if ($response) {
-            event(new ProductExtraRemoved($extra_id, $extra->product->id));
-        }
-
-        return $response;
+        return true;
     }
 }

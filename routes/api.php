@@ -79,7 +79,7 @@ Route::get('products/featured', [ProductController::class, 'getFeaturedProducts'
 Route::get('product/{id}', [ProductController::class, 'getProductById']);
 Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
 Route::get('products/search', [ProductController::class, 'searchProducts']);
-Route::get('product/remove-extra/{extra_id}', [ProductController::class, 'removeProductExtra']);
+Route::post('product/remove-extra', [ProductController::class, 'removeProductExtra']);
 Route::group([
     'middleware' => 'auth',
 ], function () {
