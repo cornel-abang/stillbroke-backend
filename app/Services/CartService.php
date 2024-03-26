@@ -69,12 +69,23 @@ class CartService
 
     public function updateItemQty(array $info): bool
     {
-        try {
-            cart()->setQuantityAt($info['item_index'], $info['qty']);
-        } catch (ItemMissing) {
+        $cart = DB::table('carts')
+            ->where('auth_user', request()->cart_token)
+            ->first();
 
-            return false;
-        }
+        DB::table('cart_items')
+            ->where('model_id', $info['product_id'])
+            ->where('cart_id', $cart->id)
+            ->update([
+                'quantity' => $info['qty']
+            ]);
+
+        // try {
+        //     cart()->setQuantityAt($info['item_index'], $info['qty']);
+        // } catch (ItemMissing) {
+
+        //     return false;
+        // }
 
         return true;
     }

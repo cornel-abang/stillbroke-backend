@@ -12,7 +12,7 @@ class UpdateCartItemQtyRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'item_index' => 'required|integer',
+            'product_id' => 'required|integer|exists:products,id',
             'cart_token' => 'required|string',
             'qty' => 'nullable|integer'
         ];
