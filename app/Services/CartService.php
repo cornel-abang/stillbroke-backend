@@ -107,16 +107,30 @@ class CartService
 
     public function updateCart(array $data): array
     {
-        $updateData = collect($data)->except('product_id')->toArray();
+        $extra_id = $data['extra_id'];
+        $updateData = collect($data)->except('product_id', 'extra_id')->toArray();
+        $updateData['extra_ids'] = $extra_id;
+
+        $cart = DB::table('carts')
+            ->where('auth_user', request()->cart_token)
+            ->first();
+
+        $cart_item = DB::table('cart_items')
+            ->where('model_id', $data['product_id'])
+            ->where('cart_id', $cart->id)
+            ->first();
 
         DB::table('cart_items')
             ->where('model_id', $data['product_id'])
-            ->update($updateData);
+            ->where('cart_id', $cart->id)
+            ->update([
+                'extra_ids' => $cart_item->extra_ids.','.$extra_id
+            ]);
 
-        if (isset($info['extras'])) {
-            $extras = implode(",", $info['extras']);
-            self::addExtraFieldsToCart($extras, $info['product_id']);
-        }
+        // if (isset($info['extras'])) {
+        //     $extras = implode(",", $info['extras']);
+        //     self::addExtraFieldsToCart($extras, $info['product_id']);
+        // }
 
         return $this->getCart();
     }
