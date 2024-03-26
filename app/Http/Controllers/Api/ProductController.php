@@ -166,4 +166,21 @@ class ProductController extends Controller
             'message' => 'Item unsaved successfully'
         ], 201);
     }
+
+    public function removeProductExtra(int $extra_id)
+    {
+        $response = $this->prodService->removeExtra($extra_id);
+
+        if (! $response) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unkown product extra'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Extra removed successfully'
+        ], 201);
+    }
 }

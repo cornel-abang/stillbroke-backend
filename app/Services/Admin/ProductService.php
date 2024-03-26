@@ -80,7 +80,7 @@ class ProductService extends AppProductService
         return $img->delete();
     }
 
-    public function removeProductExtra($id): bool
+    public static function removeProductExtra($id): bool
     {
         $extra = Extra::find($id);
 

@@ -102,7 +102,7 @@ class CartService
             ->map(function ($item) {
                 $item->extra_ids = explode(",", $item->extra_ids);
                 return $item;
-            });;
+            });
     }
 
     public function updateCart(array $data): array

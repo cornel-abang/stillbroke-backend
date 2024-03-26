@@ -6,6 +6,7 @@ use App\Events\ContactUsEvent;
 use App\Events\PaymentMadeEvent;
 use App\Events\AdminCreatedEvent;
 use App\Events\ClientCreatedEvent;
+use App\Events\ProductExtraRemoved;
 use App\Listeners\ContactUsListener;
 use Illuminate\Support\Facades\Event;
 use App\Events\UserPasswordResetEvent;
@@ -14,6 +15,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Listeners\AdminCreatedListener;
 use App\Listeners\ClientCreatedListener;
 use App\Listeners\UserPasswordResetListener;
+use App\Listeners\ProductExtraRemovedListener;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -39,6 +41,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ContactUsEvent::class => [
             ContactUsListener::class,
+        ],
+        ProductExtraRemoved::class => [
+            ProductExtraRemovedListener::class,
         ],
     ];
 

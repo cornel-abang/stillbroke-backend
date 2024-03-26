@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Extra;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\SavedProduct;
+use App\Events\ProductExtraRemoved;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\Admin\ProductService as AdminProductService;
 
 class ProductService
 {
@@ -98,5 +101,22 @@ class ProductService
         return SavedProduct::where('product_id', $id)
             ->where('user_id', auth()->user()->id)
             ->exists();
+    }
+
+    public function removeExtra(int $extra_id): bool
+    {
+        $extra = Extra::find($extra_id);
+
+        if (! $extra) {
+            return false;
+        }
+
+        $response = AdminProductService::removeProductExtra($extra_id);
+
+        if ($response) {
+            event(new ProductExtraRemoved($extra_id, $extra->product->id));
+        }
+
+        return $response;
     }
 }

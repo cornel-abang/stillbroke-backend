@@ -71,7 +71,7 @@ class ProductController extends Controller
 
     public function removeProductExtra(int $id): JsonResponse
     {
-        $response = $this->prodService->removeProductExtra($id);
+        $response = ProductService::removeProductExtra($id);
 
         if (! $response) {
             return $this->response(false, 'Product extra does not exist', 404);
