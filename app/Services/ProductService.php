@@ -85,6 +85,29 @@ class ProductService
         return Product::where('featured', true)->get();
     }
 
+    public function fetchDetails(int $id): array | bool
+    {
+        $product = Product::find($id);
+
+        if (! $product) {
+            return false;
+        }
+
+        $details = [];
+        $details['avail_qty'] = $product->avail_qty;
+        $details['extras'] = $product->extras->map(function ($extra) {
+            $data = [];
+
+            $data['id'] = $extra->id;
+            $data['name'] = $extra->name;
+            $data['value'] = $extra->value;
+
+            return $data;
+        })->groupBy('name')->toArray();
+
+        return $details;
+    }
+
     public function deleteSaved(int $id): bool
     {
         $savedProduct = SavedProduct::where('product_id', $id);

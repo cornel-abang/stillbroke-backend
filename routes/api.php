@@ -80,6 +80,7 @@ Route::get('product/{id}', [ProductController::class, 'getProductById']);
 Route::post('products/{category_id}/filter', [ProductController::class, 'filterProducts']);
 Route::get('products/search', [ProductController::class, 'searchProducts']);
 Route::post('product/remove-extra', [ProductController::class, 'removeProductExtra']);
+Route::get('product/{id}/details', [ProductController::class, 'getProductDetails']);
 Route::group([
     'middleware' => 'auth',
 ], function () {

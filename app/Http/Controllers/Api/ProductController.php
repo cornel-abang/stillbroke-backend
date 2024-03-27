@@ -151,6 +151,24 @@ class ProductController extends Controller
         return new ProductsResource($featuredProducts);
     }
 
+    public function getProductDetails(int $id)
+    {
+        $details = $this->prodService->fetchDetails($id);
+
+        if (! $details) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unkown product'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Details found',
+            'data' => $details
+        ], 200);
+    }
+
     public function deleteSavedProducts($id)
     {
         $response = $this->prodService->deleteSaved($id);
