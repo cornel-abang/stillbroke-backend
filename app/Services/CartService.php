@@ -97,7 +97,7 @@ class CartService
             ->update(['extra_ids' => $extras]);
     }
 
-    private function getRawItems(): ?Collection
+    private function  getRawItems(): ?Collection
     {
         $cart = DB::table('carts')
             ->where('auth_user', request()->cart_token)
@@ -193,9 +193,9 @@ class CartService
             ->where('model_id', $id)
             ->first();
 
-        $extra = Extra::find($cart->extra_id);
+        Extra::whereIn('id', explode(',', $cart->extra_ids))->delete();
 
-        $extra->delete();
+        return true;
     }
 
     /** Clear cart entire content */
