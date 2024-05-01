@@ -82,7 +82,8 @@ class PaymentService
             'user_id' => $info['user_id'],
             'amount' => $info['amount'],
             'shipping_address' => $info['shipping_address'],
-            'shipping_phone' => $info['shipping_phone']
+            'shipping_phone' => $info['shipping_phone'],
+            'shipping_email' => auth()->user()->email
         ]);
 
         $this->attachOrderItems($order->id);

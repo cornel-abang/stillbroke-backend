@@ -171,22 +171,6 @@ class CartService
         return $product->avail_qty >= $info['qty'] ? false : true;
     }
 
-    private function itemExists(int $modelId): bool
-    {
-        $cart = DB::table('carts')
-            ->where('auth_user', request()->cart_token)
-            ->first();
-
-        if (! $cart) {
-            return false;
-        }
-
-        return DB::table('cart_items')
-            ->where('model_id', $modelId)
-            ->where('cart_id', $cart->id)
-            ->exists();
-    }
-
     public function updateProductExtras(int $id)
     {
         $cart = DB::table('cart_items')
@@ -204,5 +188,21 @@ class CartService
         cart()->setUser(request()->cart_token);
 
         return cart()->clear();
+    }
+
+    private function itemExists(int $modelId): bool
+    {
+        $cart = DB::table('carts')
+            ->where('auth_user', request()->cart_token)
+            ->first();
+
+        if (! $cart) {
+            return false;
+        }
+
+        return DB::table('cart_items')
+            ->where('model_id', $modelId)
+            ->where('cart_id', $cart->id)
+            ->exists();
     }
 }

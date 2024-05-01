@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $receipt_url
  * @property string $shipping_address
  * @property string $shipping_phone
+ * @property string $shipping_email
  * @property string $gateway
  * @property CarbonInterface $created_at
  * @property CarbonInterface $updated_at
@@ -30,6 +31,7 @@ class Order extends Model
         'receipt_url',
         'shipping_address',
         'shipping_phone',
+        'shipping_email',
         'gateway'
     ];
 
