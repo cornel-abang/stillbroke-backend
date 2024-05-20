@@ -23,7 +23,7 @@ class OrderController extends Controller
         );
     }
 
-    public function getOrder(int $id)
+    public function getOrder(int $id): JsonResponse
     {
         $order = $this->orderService->fetchOrder($id);
 

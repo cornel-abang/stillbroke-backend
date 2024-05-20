@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class OrderService
 {
+    private function getOrder(int $id): ?Order
+    {
+        return Order::find($id);
+    }
+    
     public function fetchAllOrders(): Collection
     {
         return auth()->user()->orders;
@@ -15,9 +20,7 @@ class OrderService
 
     public function fetchOrder(int $id): ?Order 
     {
-        $order = Order::find($id);
-
-        if (! $order) {
+        if (! $order = $this->getOrder($id) ) {
             return null;
         }
 

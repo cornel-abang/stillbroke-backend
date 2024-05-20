@@ -78,14 +78,16 @@ class PaymentService
 
     private function createOrder(array $info)
     {
+        $user = User::find($info['user_id']);
+
         $order = Order::create([
-            'user_id' => $info['user_id'],
+            'user_id' => $user->id,
             'amount' => $info['amount'],
             'shipping_address' => $info['shipping_address'],
             'shipping_phone' => $info['shipping_phone'],
-            'shipping_email' => auth()->user()->email
+            'shipping_email' => $user->email
         ]);
-
+        
         $this->attachOrderItems($order->id);
 
         return $order;

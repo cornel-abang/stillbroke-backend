@@ -15,13 +15,13 @@ class PaymentService
             return [
                 'payment_ref' => $order->payment_ref,
                 'amount' => $order->amount,
-                'amount' => $order->amount,
                 'payment_date' => $order->updated_at,
                 'paid_by' => $order->owner->name,
                 'paid_for' => 'Order: #__'. $order->payment_ref,
                 'payment_gateway' => $order->gateway,
             ];
-        })->all();
+        })
+        ->all();
 
         return $payments;
     }
