@@ -1,1 +1,1 @@
-[Shop @stillbroke.co](https://www.stillbroke.co/) :wink:
+[shop @stillbroke.co](https://www.stillbroke.co/) :wink:
